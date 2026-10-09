@@ -8,9 +8,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
-      '@firebase/auth': path.resolve(__dirname, './node_modules/@firebase/auth/dist/esm/index.js'),
-      '@firebase/util': path.resolve(__dirname, './node_modules/@firebase/util/dist/index.esm2017.js'),
-      'phaser': path.resolve(__dirname, './node_modules/.phaser-N1yatjUG/dist/phaser.js'),
+      'phaser': path.resolve(__dirname, './node_modules/phaser/dist/phaser.js'),
     },
     dedupe: ['firebase', '@firebase/app', '@firebase/auth', '@firebase/firestore'],
   },
