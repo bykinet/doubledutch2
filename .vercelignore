@@ -1,0 +1,10 @@
+# Vercel Deployment Ignore Rules
+# Ignore Firebase backend functions from being processed as Vercel serverless functions
+functions
+firebase.json
+firestore.rules
+firestore.indexes.json
+
+# Local scripts
+copy-babel.cjs
+fix-all-scoped.cjs
