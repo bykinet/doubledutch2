@@ -1,0 +1,630 @@
+/* Modern Japanese Anime Game Aesthetic Design System */
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700;800;900&family=Noto+Sans+KR:wght@500;700;900&family=Outfit:wght@500;700;900&display=swap');
+
+:root {
+  --font-main: 'Outfit', 'Noto Sans KR', 'M PLUS Rounded 1c', sans-serif;
+  --color-bg-dark: #0B0F19;
+  --color-bg-card: rgba(26, 32, 53, 0.88);
+  --color-bg-glass: rgba(18, 24, 40, 0.72);
+  --color-border-anime: #2D3748;
+  
+  --color-primary: #FF5A36;
+  --color-primary-hover: #FF7454;
+  --color-primary-shadow: #B83216;
+  
+  --color-accent-cyan: #00D2FF;
+  --color-accent-gold: #FFD200;
+  --color-accent-green: #10B981;
+  --color-accent-purple: #8B5CF6;
+  --color-accent-red: #EF4444;
+
+  --color-text-main: #FFFFFF;
+  --color-text-muted: #94A3B8;
+  --color-text-dark: #0F172A;
+
+  --shadow-anime: 0 6px 0 rgba(0, 0, 0, 0.35);
+  --shadow-anime-btn: 0 4px 0 var(--color-primary-shadow);
+  --radius-anime: 14px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--color-bg-dark);
+  font-family: var(--font-main);
+  color: var(--color-text-main);
+  touch-action: manipulation;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* App container */
+.app-viewport {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: radial-gradient(circle at 50% 30%, #1e293b 0%, #0b0f19 100%);
+}
+
+/* Phaser Canvas Mount Container (Responsive Scaling) */
+.game-canvas-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.game-canvas-container canvas {
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain;
+}
+
+/* Top Navigation Bar */
+.top-nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.top-nav-brand {
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  background: linear-gradient(135deg, #FFD200 0%, #FF5A36 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 10px rgba(255, 90, 54, 0.3);
+  pointer-events: auto;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.top-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  pointer-events: auto;
+}
+
+/* Anime styled button system */
+.anime-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  font-family: var(--font-main);
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  background: linear-gradient(180deg, #FF6F4C 0%, #E6431D 100%);
+  border: 2px solid #1E293B;
+  border-radius: var(--radius-anime);
+  box-shadow: 0 4px 0 #9E2B11, 0 6px 12px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.15s ease;
+  outline: none;
+}
+
+.anime-btn:hover {
+  filter: brightness(1.08);
+}
+
+.anime-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #9E2B11, 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.anime-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  filter: grayscale(0.6);
+  box-shadow: 0 2px 0 #334155;
+}
+
+.anime-btn.secondary {
+  background: linear-gradient(180deg, #38BDF8 0%, #0284C7 100%);
+  box-shadow: 0 4px 0 #0369A1, 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+.anime-btn.secondary:active {
+  box-shadow: 0 1px 0 #0369A1;
+}
+
+.anime-btn.dark {
+  background: linear-gradient(180deg, #334155 0%, #1E293B 100%);
+  box-shadow: 0 4px 0 #0F172A, 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+.anime-btn.dark:active {
+  box-shadow: 0 1px 0 #0F172A;
+}
+
+.anime-btn.accent-green {
+  background: linear-gradient(180deg, #34D399 0%, #059669 100%);
+  box-shadow: 0 4px 0 #047857;
+}
+
+.anime-btn.danger {
+  background: linear-gradient(180deg, #F87171 0%, #DC2626 100%);
+  box-shadow: 0 4px 0 #991B1B;
+}
+
+.anime-btn.contrast-confirm {
+  background: linear-gradient(180deg, #FBBF24 0%, #D97706 100%);
+  color: #0F172A;
+  box-shadow: 0 4px 0 #B45309;
+}
+
+.anime-btn.sm {
+  padding: 6px 14px;
+  font-size: 13px;
+  border-radius: 10px;
+}
+
+.anime-btn.lg {
+  padding: 16px 36px;
+  font-size: 20px;
+  border-radius: 18px;
+}
+
+/* Glassmorphism Modal / Card */
+.anime-card {
+  background: var(--color-bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  max-height: 92vh;
+  overflow-y: auto;
+}
+
+.anime-modal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(11, 15, 25, 0.82);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 16px;
+}
+
+/* Speech Bubble Prompt System (Anime Speech Bubble with Tail) */
+.speech-bubble {
+  position: relative;
+  background: #FEF3C7;
+  color: #78350F;
+  border: 2px solid #F59E0B;
+  border-radius: 12px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  margin-bottom: 8px;
+  animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 20px;
+  border-width: 8px 8px 0;
+  border-style: solid;
+  border-color: #F59E0B transparent;
+  display: block;
+  width: 0;
+}
+
+.speech-bubble.danger {
+  background: #FEE2E2;
+  color: #991B1B;
+  border-color: #EF4444;
+}
+
+.speech-bubble.danger::after {
+  border-color: #EF4444 transparent;
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Form Inputs */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  width: 100%;
+  position: relative;
+}
+
+.form-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  font-family: var(--font-main);
+  font-size: 15px;
+  font-weight: 600;
+  color: #FFFFFF;
+  background: rgba(15, 23, 42, 0.8);
+  border: 2px solid #334155;
+  border-radius: 12px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.form-input:focus {
+  border-color: var(--color-accent-cyan);
+  box-shadow: 0 0 0 3px rgba(0, 210, 255, 0.25);
+}
+
+.form-input::placeholder {
+  color: #64748B;
+  font-weight: 500;
+}
+
+.form-input-icon-btn {
+  position: absolute;
+  right: 12px;
+  background: transparent;
+  border: none;
+  color: #94A3B8;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.form-input-icon-btn:hover {
+  color: #FFFFFF;
+}
+
+/* Game Canvas Container */
+.game-canvas-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0B0F19;
+  overflow: hidden;
+}
+
+.game-canvas-container canvas {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+}
+
+/* Game HUD Overlays */
+.game-hud-top {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 50;
+}
+
+.hud-stat-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(12px);
+  border: 2px solid rgba(255, 210, 0, 0.35);
+  border-radius: 30px;
+  padding: 8px 20px;
+  font-weight: 800;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.hud-timer {
+  font-size: 28px;
+  font-weight: 900;
+  color: #FFD200;
+  text-shadow: 0 0 12px rgba(255, 210, 0, 0.6);
+  letter-spacing: 0.5px;
+}
+
+.hud-timer.rush {
+  color: #EF4444;
+  text-shadow: 0 0 16px rgba(239, 68, 68, 0.9);
+  animation: pulseRush 0.4s infinite alternate;
+}
+
+@keyframes pulseRush {
+  from { transform: scale(1); }
+  to { transform: scale(1.12); text-shadow: 0 0 20px #EF4444; }
+}
+
+.hud-score {
+  font-size: 24px;
+  font-weight: 900;
+  color: #FFFFFF;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8), 0 0 10px rgba(56, 189, 248, 0.5);
+  letter-spacing: 1px;
+}
+
+.hud-combo-badge {
+  background: linear-gradient(135deg, #FF5A36, #EF4444);
+  color: #FFFFFF;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 900;
+  box-shadow: 0 2px 10px rgba(239, 68, 68, 0.6);
+  border: 1.5px solid #FEF08A;
+  animation: popIn 0.3s ease-out;
+}
+
+/* Bottom Game Controls */
+.game-hud-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 14px 24px 28px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 50;
+}
+
+.bottom-left-controls,
+.bottom-center-controls,
+.bottom-right-controls {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bottom-center-controls {
+  gap: 24px;
+}
+
+/* Giant Japanese Anime 3D Arcade Jump Buttons */
+.jump-action-btn {
+  width: 146px;
+  height: 68px;
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  border-radius: 22px;
+  border: 3px solid #0F172A;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.jump-action-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 100%);
+  border-radius: 18px 18px 0 0;
+  pointer-events: none;
+}
+
+.jump-action-btn.accent-green {
+  background: linear-gradient(180deg, #10B981 0%, #047857 100%);
+  box-shadow: 0 6px 0 #064E3B, 0 10px 20px rgba(16, 185, 129, 0.4);
+}
+.jump-action-btn.accent-green:active:not(:disabled) {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #064E3B, 0 4px 8px rgba(16, 185, 129, 0.3);
+}
+
+.jump-action-btn.danger {
+  background: linear-gradient(180deg, #EF4444 0%, #B91C1C 100%);
+  box-shadow: 0 6px 0 #7F1D1D, 0 10px 20px rgba(239, 68, 68, 0.4);
+}
+.jump-action-btn.danger:active:not(:disabled) {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #7F1D1D, 0 4px 8px rgba(239, 68, 68, 0.3);
+}
+
+/* Zoom Slider & Camera Toggle Controls */
+.hud-tool-card {
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(8px);
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Responsive layout adjustments (Mobile 390px) */
+@media (max-width: 600px) {
+  .top-nav {
+    padding: 0 12px;
+    height: 52px;
+  }
+  .top-nav-brand span {
+    display: none;
+  }
+  .game-hud-top {
+    top: 50px;
+    padding: 0 10px;
+  }
+  .hud-stat-pill {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  .hud-timer {
+    font-size: 20px;
+  }
+  .hud-score {
+    font-size: 16px;
+  }
+  .game-hud-bottom {
+    padding: 8px 10px 14px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .bottom-left-controls,
+  .bottom-right-controls {
+    order: 2;
+    transform: scale(0.9);
+  }
+  .bottom-center-controls {
+    order: 1;
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 4px;
+  }
+  .jump-action-btn {
+    width: 120px;
+    height: 54px;
+    font-size: 16px;
+  }
+  .ending-scoreboard-overlay {
+    bottom: 22px;
+  }
+  .score-view-pulse-btn {
+    padding: 13px 30px;
+    font-size: 18px;
+    border-radius: 18px;
+  }
+}
+
+/* Ending Scene: View Scoreboard Button (Floats at bottom center upon scene freeze) */
+.ending-scoreboard-overlay {
+  position: absolute;
+  bottom: 38px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 220;
+  pointer-events: auto;
+  animation: popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.score-view-pulse-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 44px;
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  border-radius: 22px;
+  border: 3.5px solid #0F172A;
+  cursor: pointer;
+  box-shadow: 0 8px 0 #92400E, 0 16px 36px rgba(0, 0, 0, 0.5);
+  animation: scoreBtnPulse 1.8s infinite ease-in-out;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.score-view-pulse-btn:hover {
+  filter: brightness(1.1);
+}
+
+.score-view-pulse-btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #92400E, 0 6px 14px rgba(0, 0, 0, 0.4);
+}
+
+.score-view-pulse-btn.accent-blue {
+  background: linear-gradient(180deg, #3B82F6 0%, #1D4ED8 100%);
+  color: #FFFFFF;
+  box-shadow: 0 8px 0 #1E3A8A, 0 16px 36px rgba(0, 0, 0, 0.5);
+}
+
+.score-view-pulse-btn.accent-blue:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #1E3A8A, 0 6px 14px rgba(0, 0, 0, 0.4);
+}
+
+@keyframes scoreBtnPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
