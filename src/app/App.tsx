@@ -105,14 +105,16 @@ export const App: React.FC = () => {
 
   return (
     <div className="app-viewport">
-      {/* Top Navigation */}
-      <TopNav
-        onHomeClick={() => setScreen("home")}
-        onOpenMyPage={() => setShowMyPageModal(true)}
-        onOpenLeaderboard={() => setShowLeaderboardModal(true)}
-        onOpenAdmin={() => setShowAdminModal(true)}
-        showUserControls={!showLoginModal && !showRegisterModal}
-      />
+      {/* Top Navigation (Home & Result screens) */}
+      {screen !== "game" && (
+        <TopNav
+          onHomeClick={() => setScreen("home")}
+          onOpenMyPage={() => setShowMyPageModal(true)}
+          onOpenLeaderboard={() => setShowLeaderboardModal(true)}
+          onOpenAdmin={() => setShowAdminModal(true)}
+          showUserControls={!showLoginModal && !showRegisterModal}
+        />
+      )}
 
       {/* Account Deletion Notice Toast */}
       {accountDeletedNotice && (
@@ -143,6 +145,9 @@ export const App: React.FC = () => {
         <GamePage
           onGameOver={handleGameOver}
           hasPlayedFirstGame={hasPlayedFirstGame}
+          onOpenLeaderboard={() => setShowLeaderboardModal(true)}
+          onOpenMyPage={() => setShowMyPageModal(true)}
+          onHomeClick={() => setScreen("home")}
         />
       )}
 

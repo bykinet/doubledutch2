@@ -12,6 +12,9 @@ import { Trophy } from "lucide-react";
 interface GamePageProps {
   onGameOver: (stats: GamePlayStats, settings: GameSettings, theoreticalMax: number, grade: "S" | "A" | "B" | "C") => void;
   hasPlayedFirstGame: boolean;
+  onOpenLeaderboard?: () => void;
+  onOpenMyPage?: () => void;
+  onHomeClick?: () => void;
 }
 
 const CAMERA_ANGLES_ORDER: CameraAngle[] = ["front", "left", "right", "high"];
@@ -19,6 +22,9 @@ const CAMERA_ANGLES_ORDER: CameraAngle[] = ["front", "left", "right", "high"];
 export const GamePage: React.FC<GamePageProps> = ({
   onGameOver,
   hasPlayedFirstGame,
+  onOpenLeaderboard,
+  onOpenMyPage,
+  onHomeClick,
 }) => {
   const { user, profile } = useAuth();
   const canvasContainerRef = useRef<HTMLDivElement>(null);
@@ -297,6 +303,9 @@ export const GamePage: React.FC<GamePageProps> = ({
           onCycleCameraAngle={cycleCameraAngle}
           onZoomChange={handleZoomChange}
           onOpenCharacterSidebar={() => setIsCharacterSidebarOpen(true)}
+          onOpenLeaderboard={onOpenLeaderboard}
+          onOpenMyPage={onOpenMyPage}
+          onHomeClick={onHomeClick}
         />
       )}
 

@@ -93,8 +93,15 @@ html, body {
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
+  background: #0b0b1a;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   z-index: 100;
   pointer-events: none;
+}
+
+.top-nav * {
+  white-space: nowrap;
+  word-break: keep-all;
 }
 
 .top-nav-brand {
@@ -142,8 +149,10 @@ html, body {
   outline: none;
 }
 
-.anime-btn:hover {
+button:hover:not(:disabled),
+.anime-btn:hover:not(:disabled) {
   filter: brightness(1.08);
+  opacity: 0.85;
 }
 
 .anime-btn:active {
@@ -365,18 +374,69 @@ html, body {
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
 }
 
-/* Game HUD Overlays */
-.game-hud-top {
-  position: absolute;
-  top: 60px;
+/* ==========================================================================
+   1. Game Top Unified Control Bar (Requirement 1)
+   ========================================================================== */
+.game-top-control-bar {
+  position: fixed;
+  top: 0;
   left: 0;
   width: 100%;
-  padding: 0 20px;
+  background: #0b0b1a;
+  color: #ffffff;
+  padding: 8px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  z-index: 100;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.game-top-control-bar * {
+  white-space: nowrap;
+  word-break: keep-all;
+}
+
+/* PC: Single row layout */
+@media (min-width: 769px) {
+  .game-top-control-bar {
+    flex-wrap: nowrap;
+  }
+  .top-row-mobile {
+    display: contents;
+  }
+  .top-group-timer {
+    order: 1;
+  }
+  .top-group-jumpers {
+    order: 2;
+  }
+  .top-group-score {
+    order: 3;
+  }
+  .top-group-nav {
+    order: 4;
+  }
+}
+
+.top-control-group {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  pointer-events: none;
-  z-index: 50;
+  gap: 12px;
+}
+
+.top-control-group.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.top-control-group.nav-actions .anime-btn {
+  padding: 6px 12px;
+  font-size: 13px;
+  height: 32px;
 }
 
 .hud-stat-pill {
@@ -387,13 +447,13 @@ html, body {
   backdrop-filter: blur(12px);
   border: 2px solid rgba(255, 210, 0, 0.35);
   border-radius: 30px;
-  padding: 8px 20px;
+  padding: 6px 16px;
   font-weight: 800;
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .hud-timer {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 900;
   color: #FFD200;
   text-shadow: 0 0 12px rgba(255, 210, 0, 0.6);
@@ -411,57 +471,143 @@ html, body {
   to { transform: scale(1.12); text-shadow: 0 0 20px #EF4444; }
 }
 
+.rush-label {
+  color: #EF4444;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.go-toggle-btn {
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  height: 28px;
+  border-radius: 8px;
+  min-width: 52px;
+  cursor: pointer;
+}
+
+.character-change-btn {
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 800;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  border: 1px solid rgba(255, 215, 0, 0.4);
+}
+
+.jumpers-counter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.jumpers-count-text {
+  font-size: 15px;
+  font-weight: 800;
+}
+
 .hud-score {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 900;
   color: #FFFFFF;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8), 0 0 10px rgba(56, 189, 248, 0.5);
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 
 .hud-combo-badge {
   background: linear-gradient(135deg, #FF5A36, #EF4444);
   color: #FFFFFF;
-  padding: 5px 12px;
+  padding: 4px 10px;
   border-radius: 20px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 900;
   box-shadow: 0 2px 10px rgba(239, 68, 68, 0.6);
   border: 1.5px solid #FEF08A;
   animation: popIn 0.3s ease-out;
 }
 
-/* Bottom Game Controls */
-.game-hud-bottom {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding: 14px 24px 28px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  pointer-events: none;
-  z-index: 50;
+/* Mobile responsive for Top Control Bar: automatically wraps into 2 lines */
+@media (max-width: 768px) {
+  .game-top-control-bar {
+    padding: 6px 12px;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .top-row-mobile {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .hud-stat-pill {
+    padding: 4px 10px;
+    gap: 6px;
+    font-size: 12px;
+    border-radius: 20px;
+  }
+
+  .hud-timer {
+    font-size: 18px;
+  }
+
+  .hud-score {
+    font-size: 14px;
+  }
+
+  .hud-combo-badge {
+    padding: 3px 8px;
+    font-size: 11px;
+  }
+
+  .character-change-btn {
+    padding: 3px 8px;
+    font-size: 11px;
+    height: 24px;
+  }
+
+  .go-toggle-btn {
+    padding: 3px 8px;
+    font-size: 11px;
+    height: 24px;
+    min-width: 44px;
+  }
+
+  .top-control-group.nav-actions .anime-btn {
+    padding: 4px 8px;
+    font-size: 11px;
+    height: 26px;
+  }
 }
 
-.bottom-left-controls,
-.bottom-center-controls,
-.bottom-right-controls {
-  pointer-events: auto;
+/* ==========================================================================
+   2. Bottom Center Controls: JUMP-IN & JUMP-OUT (Requirement 2)
+   ========================================================================== */
+.bottom-center-controls {
+  position: fixed;
+  bottom: 8vh;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: center;
+  gap: 20px;
+  z-index: 60;
+  pointer-events: auto;
 }
 
-.bottom-center-controls {
-  gap: 24px;
-}
-
-/* Giant Japanese Anime 3D Arcade Jump Buttons */
+/* PC default size: 160×70px */
 .jump-action-btn {
-  width: 146px;
-  height: 68px;
+  width: 160px;
+  height: 70px;
   font-size: 20px;
   font-weight: 900;
   letter-spacing: 1px;
@@ -471,6 +617,12 @@ html, body {
   cursor: pointer;
   position: relative;
   overflow: hidden;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+  user-select: none;
 }
 
 .jump-action-btn::after {
@@ -485,87 +637,120 @@ html, body {
   pointer-events: none;
 }
 
+/* Button click animation: scale(1.05); transition: 0.2s ease; */
+.jump-action-btn:active:not(:disabled) {
+  transform: scale(1.05);
+  transition: 0.2s ease;
+}
+
+.jump-action-btn:hover:not(:disabled) {
+  opacity: 0.85;
+}
+
+/* Green JUMP-IN button */
 .jump-action-btn.accent-green {
   background: linear-gradient(180deg, #10B981 0%, #047857 100%);
   box-shadow: 0 6px 0 #064E3B, 0 10px 20px rgba(16, 185, 129, 0.4);
-}
-.jump-action-btn.accent-green:active:not(:disabled) {
-  transform: translateY(4px);
-  box-shadow: 0 2px 0 #064E3B, 0 4px 8px rgba(16, 185, 129, 0.3);
+  color: #FFFFFF;
 }
 
+/* Red JUMP-OUT button */
 .jump-action-btn.danger {
   background: linear-gradient(180deg, #EF4444 0%, #B91C1C 100%);
   box-shadow: 0 6px 0 #7F1D1D, 0 10px 20px rgba(239, 68, 68, 0.4);
-}
-.jump-action-btn.danger:active:not(:disabled) {
-  transform: translateY(4px);
-  box-shadow: 0 2px 0 #7F1D1D, 0 4px 8px rgba(239, 68, 68, 0.3);
+  color: #FFFFFF;
 }
 
-/* Zoom Slider & Camera Toggle Controls */
+/* Mobile responsive for Jump buttons (90% ratio: 120×60 * 0.9 = 108×54px) */
+@media (max-width: 768px) {
+  .bottom-center-controls {
+    bottom: 8vh;
+    gap: 16px;
+  }
+
+  .jump-action-btn {
+    width: 108px;
+    height: 54px;
+    font-size: 15px;
+    border-radius: 16px;
+  }
+}
+
+/* ==========================================================================
+   3. Game Character Jump Animation (Requirement 3)
+   ========================================================================== */
+@keyframes jump {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-40px);
+  }
+}
+
+.character-jump-anim {
+  position: relative;
+  animation: jump 0.8s infinite ease-in-out;
+}
+
+/* ==========================================================================
+   4. Bottom Right Controls: STILL / 100% / Zoom (Requirement 4)
+   ========================================================================== */
+.bottom-right-controls {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 55;
+  pointer-events: auto;
+}
+
 .hud-tool-card {
-  background: rgba(15, 23, 42, 0.85);
-  backdrop-filter: blur(8px);
-  border: 2px solid rgba(255, 255, 255, 0.12);
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.15);
   border-radius: 16px;
-  padding: 8px 14px;
+  padding: 6px 12px;
   display: flex;
   align-items: center;
   gap: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
-/* Responsive layout adjustments (Mobile 390px) */
-@media (max-width: 600px) {
-  .top-nav {
-    padding: 0 12px;
-    height: 52px;
-  }
-  .top-nav-brand span {
-    display: none;
-  }
-  .game-hud-top {
-    top: 50px;
-    padding: 0 10px;
-  }
-  .hud-stat-pill {
-    padding: 6px 12px;
-    font-size: 12px;
-  }
-  .hud-timer {
-    font-size: 20px;
-  }
-  .hud-score {
-    font-size: 16px;
-  }
-  .game-hud-bottom {
-    padding: 8px 10px 14px;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .bottom-left-controls,
+.zoom-controls-divider {
+  width: 1px;
+  height: 18px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 0 2px;
+}
+
+.zoom-pct-label {
+  font-size: 13px;
+  font-weight: 800;
+  min-width: 44px;
+  text-align: center;
+  color: #FFFFFF;
+}
+
+@media (max-width: 768px) {
   .bottom-right-controls {
-    order: 2;
-    transform: scale(0.9);
+    bottom: 12px;
+    right: 12px;
+    transform: scale(0.88);
+    transform-origin: bottom right;
   }
-  .bottom-center-controls {
-    order: 1;
-    width: 100%;
-    justify-content: center;
-    margin-bottom: 4px;
-  }
-  .jump-action-btn {
-    width: 120px;
-    height: 54px;
-    font-size: 16px;
-  }
-  .ending-scoreboard-overlay {
-    bottom: 22px;
-  }
-  .score-view-pulse-btn {
-    padding: 13px 30px;
-    font-size: 18px;
-    border-radius: 18px;
+}
+
+/* ==========================================================================
+   Desktop 16:9 Aspect Ratio Optimization
+   ========================================================================== */
+@media (min-width: 1024px) {
+  .game-canvas-container canvas {
+    aspect-ratio: 16 / 9;
+    max-width: 100vw;
+    max-height: 100vh;
   }
 }
 

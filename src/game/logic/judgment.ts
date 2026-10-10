@@ -76,8 +76,8 @@ export function getComboMultiplier(comboRounds: number): number {
  */
 export function getJumperTargetX(index: number, totalCount: number): number {
   if (totalCount <= 1) return 5.0;
-  // Compact grouping near center (5.0) with tight spacing
-  const spacing = 0.55;
+  // Symmetrically spaced horizontally around exact center (5.0)
+  const spacing = 0.8;
   const startX = 5.0 - ((totalCount - 1) * spacing) / 2;
   return startX + index * spacing;
 }

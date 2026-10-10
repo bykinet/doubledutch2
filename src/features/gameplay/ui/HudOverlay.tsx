@@ -1,8 +1,22 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CameraAngle, CameraMode } from "@/game/logic/types";
 import { Button } from "@/shared/ui/Button";
-import { Camera, ZoomIn, ZoomOut, Flame, Users, Timer } from "lucide-react";
+import {
+  Camera,
+  ZoomIn,
+  ZoomOut,
+  Flame,
+  Users,
+  Timer,
+  Volume2,
+  VolumeX,
+  Globe,
+  Trophy,
+  LogOut,
+} from "lucide-react";
+import { soundManager } from "@/shared/audio/soundManager";
+import { useAuth } from "@/features/auth/model/useAuth";
 
 interface HudOverlayProps {
   score: number;
@@ -26,6 +40,9 @@ interface HudOverlayProps {
   onCycleCameraAngle: () => void;
   onZoomChange: (zoom: number) => void;
   onOpenCharacterSidebar?: () => void;
+  onOpenLeaderboard?: () => void;
+  onOpenMyPage?: () => void;
+  onHomeClick?: () => void;
 }
 
 const ZOOM_STEPS = [0.8, 0.9, 1.0, 1.15, 1.3];
@@ -51,8 +68,23 @@ export const HudOverlay: React.FC<HudOverlayProps> = ({
   onCycleCameraAngle,
   onZoomChange,
   onOpenCharacterSidebar,
+  onOpenLeaderboard,
+  onOpenMyPage,
+  onHomeClick,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const { user, logout } = useAuth();
+  const [muted, setMuted] = useState(soundManager.getMuted());
+
+  const toggleLanguage = () => {
+    const nextLang = i18n.language === "ko" ? "en" : "ko";
+    i18n.changeLanguage(nextLang);
+  };
+
+  const toggleAudio = () => {
+    const nextMuted = soundManager.toggleMute();
+    setMuted(nextMuted);
+  };
 
   // Keyboard controls
   useEffect(() => {
@@ -101,172 +133,206 @@ export const HudOverlay: React.FC<HudOverlayProps> = ({
 
   return (
     <>
-      {/* Top HUD */}
-      <div className="game-hud-top">
-        {/* Left: Time, Stop/Go Toggle Button & Rush indicator */}
-        <div className="hud-stat-pill" style={{ pointerEvents: "auto", display: "flex", alignItems: "center", gap: 10 }}>
-          <Timer size={20} color={isRush ? "#EF4444" : "#FFD200"} />
-          <span className={`hud-timer ${isRush ? "rush" : ""}`}>
-            {remainingTime}s
-          </span>
+      {/* 1. Top Fixed Unified Control Bar (Requirement 1) */}
+      <header className="game-top-control-bar" role="banner" aria-label="Game Control Bar">
+        {/* Row 1 for Mobile / Ordered item for Desktop */}
+        <div className="top-row-mobile row-1">
+          {/* Group 1: Timer, Rush & GO / Stop Toggle Button */}
+          <div className="top-control-group top-group-timer">
+            <div className="hud-stat-pill timer-pill">
+              <Timer size={18} color={isRush ? "#EF4444" : "#FFD200"} />
+              <span className={`hud-timer ${isRush ? "rush" : ""}`}>
+                {remainingTime}s
+              </span>
 
-          {/* Test/Debug Toggle: Stop -> Go */}
-          {!isEnding && (
-            <button
-              type="button"
-              className={`anime-btn sm ${isPaused ? "accent-green" : "danger"}`}
-              style={{
-                padding: "4px 12px",
-                fontSize: 12,
-                fontWeight: 900,
-                letterSpacing: 0.5,
-                height: 28,
-                borderRadius: 8,
-                minWidth: 52,
-                cursor: "pointer",
-              }}
-              onClick={onTogglePause}
-              aria-label={isPaused ? "Go" : "Stop"}
-              title="개발/테스트용 일시정지 토글 버튼 (클릭 시 화면 고정/재개)"
-            >
-              {isPaused ? "Go" : "Stop"}
-            </button>
-          )}
+              {!isEnding && (
+                <button
+                  type="button"
+                  className={`anime-btn sm ${isPaused ? "accent-green" : "danger"} go-toggle-btn`}
+                  onClick={onTogglePause}
+                  aria-label={isPaused ? "Go" : "Stop"}
+                  title={isPaused ? "Resume game" : "Pause game"}
+                >
+                  {isPaused ? "GO" : "STOP"}
+                </button>
+              )}
 
-          {isRush && (
-            <span style={{ color: "#EF4444", fontSize: 13, fontWeight: 900 }}>
-              {t("game.speedUp")}
-            </span>
-          )}
-        </div>
-
-        {/* Center: Jumpers Count & Character Roster Button */}
-        <div className="hud-stat-pill" style={{ display: "flex", alignItems: "center", gap: 12, pointerEvents: "auto" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <Users size={18} color="#38BDF8" />
-            <span style={{ fontSize: 16 }}>
-              {activeJumpers} / {maxJumpers}
-            </span>
-          </div>
-
-          {onOpenCharacterSidebar && (
-            <button
-              type="button"
-              className="anime-btn sm dark"
-              style={{
-                padding: "3px 10px",
-                fontSize: 12,
-                fontWeight: 800,
-                height: 28,
-                borderRadius: 8,
-                display: "flex",
-                alignItems: "center",
-                gap: 5,
-                cursor: "pointer",
-                border: "1px solid rgba(255, 215, 0, 0.4)",
-              }}
-              onClick={onOpenCharacterSidebar}
-              title="캐릭터 선택 및 업로드 (사이드바)"
-            >
-              <span>👥 캐릭터 변경</span>
-            </button>
-          )}
-        </div>
-
-        {/* Right: Combo & Score */}
-        <div className="hud-stat-pill">
-          {combo > 0 && (
-            <div className="hud-combo-badge">
-              <Flame size={14} style={{ display: "inline", marginRight: 4 }} />
-              {combo} COMBO ({comboMultiplier.toFixed(1)}x)
+              {isRush && (
+                <span className="rush-label">
+                  {t("game.speedUp")}
+                </span>
+              )}
             </div>
-          )}
-          <div className="hud-score">
-            {score.toLocaleString()} PTS
           </div>
-        </div>
-      </div>
 
-      {/* Bottom HUD */}
-      <div className="game-hud-bottom">
-        {/* 1. Bottom Left: Still / Move Toggle & Angle Switcher */}
-        <div className="bottom-left-controls">
-          <div className="hud-tool-card">
-            <Button
+          {/* Group 4: Quick Nav Utility Controls (Audio, Lang, Trophy, Logout) */}
+          <div className="top-control-group top-group-nav nav-actions">
+            <button
               type="button"
-              variant={cameraMode === "still" ? "primary" : "dark"}
-              size="sm"
-              onClick={onToggleCameraMode}
+              className="anime-btn dark sm icon-btn"
+              onClick={toggleAudio}
+              aria-label={muted ? "Unmute audio" : "Mute audio"}
+              title={muted ? "Unmute audio" : "Mute audio"}
             >
-              {cameraMode === "still" ? t("game.still") : t("game.move")}
-            </Button>
+              {muted ? <VolumeX size={15} /> : <Volume2 size={15} />}
+            </button>
 
-            {cameraMode === "move" && (
-              <Button
+            <button
+              type="button"
+              className="anime-btn dark sm lang-btn"
+              onClick={toggleLanguage}
+              aria-label="Change language"
+              title="Change language"
+            >
+              <Globe size={15} />
+              <span className="lang-text">{i18n.language === "ko" ? "EN" : "한국어"}</span>
+            </button>
+
+            {onOpenLeaderboard && (
+              <button
                 type="button"
-                variant="secondary"
-                size="sm"
-                onClick={onCycleCameraAngle}
+                className="anime-btn dark sm icon-btn"
+                onClick={onOpenLeaderboard}
+                aria-label={t("leaderboard.title")}
+                title={t("leaderboard.title")}
               >
-                <Camera size={16} />
-                <span>{getCameraAngleLabel(cameraAngle)}</span>
-              </Button>
+                <Trophy size={15} />
+              </button>
+            )}
+
+            {user && (
+              <button
+                type="button"
+                className="anime-btn dark sm logout-btn"
+                onClick={logout}
+                aria-label={t("nav.logout")}
+                title={t("nav.logout")}
+              >
+                <LogOut size={15} />
+                <span className="logout-text">{t("nav.logout")}</span>
+              </button>
             )}
           </div>
         </div>
 
-        {/* 2. Bottom Center: Large Jump-In & Jump-Out buttons (Hidden during ending sequence) */}
-        {!isEnding && (
-          <div className="bottom-center-controls">
-            <button
-              type="button"
-              className="anime-btn accent-green jump-action-btn"
-              onClick={onJumpIn}
-              disabled={isLocked || activeJumpers >= maxJumpers}
-              aria-label={t("game.jumpIn")}
-            >
-              {isLocked ? t("game.cooldown") : t("game.jumpIn")}
-            </button>
+        {/* Row 2 for Mobile / Ordered item for Desktop */}
+        <div className="top-row-mobile row-2">
+          {/* Group 2: Jumpers Count & Character Roster Button */}
+          <div className="top-control-group top-group-jumpers">
+            <div className="hud-stat-pill roster-pill">
+              <div className="jumpers-counter">
+                <Users size={16} color="#38BDF8" />
+                <span className="jumpers-count-text">
+                  {activeJumpers} / {maxJumpers}
+                </span>
+              </div>
 
-            <button
-              type="button"
-              className="anime-btn danger jump-action-btn"
-              onClick={onJumpOut}
-              disabled={isLocked || activeJumpers === 0}
-              aria-label={t("game.jumpOut")}
-            >
-              {isLocked ? t("game.cooldown") : t("game.jumpOut")}
-            </button>
+              {onOpenCharacterSidebar && (
+                <button
+                  type="button"
+                  className="anime-btn sm dark character-change-btn"
+                  onClick={onOpenCharacterSidebar}
+                  title="캐릭터 선택 및 업로드 (사이드바)"
+                >
+                  <span>👥 캐릭터 변경</span>
+                </button>
+              )}
+            </div>
           </div>
-        )}
 
-        {/* 3. Bottom Right: 5-step Zoom control */}
-        <div className="bottom-right-controls">
-          <div className="hud-tool-card">
-            <button
-              type="button"
-              className="anime-btn dark sm"
-              onClick={() => handleZoomStep("out")}
-              disabled={zoomLevel <= ZOOM_STEPS[0]}
-              aria-label="Zoom out"
-            >
-              <ZoomOut size={16} />
-            </button>
-
-            <span style={{ fontSize: 13, fontWeight: 800, minWidth: 46, textAlign: "center" }}>
-              {Math.round(zoomLevel * 100)}%
-            </span>
-
-            <button
-              type="button"
-              className="anime-btn dark sm"
-              onClick={() => handleZoomStep("in")}
-              disabled={zoomLevel >= ZOOM_STEPS[ZOOM_STEPS.length - 1]}
-              aria-label="Zoom in"
-            >
-              <ZoomIn size={16} />
-            </button>
+          {/* Group 3: Combo Badge & Score */}
+          <div className="top-control-group top-group-score">
+            <div className="hud-stat-pill score-pill">
+              {combo > 0 && (
+                <div className="hud-combo-badge">
+                  <Flame size={13} style={{ display: "inline", marginRight: 3 }} />
+                  {combo} COMBO ({comboMultiplier.toFixed(1)}x)
+                </div>
+              )}
+              <div className="hud-score">
+                {score.toLocaleString()} PTS
+              </div>
+            </div>
           </div>
+        </div>
+      </header>
+
+      {/* 2. Bottom Center Controls: JUMP-IN & JUMP-OUT buttons (Requirement 2) */}
+      {!isEnding && (
+        <div className="bottom-center-controls">
+          <button
+            type="button"
+            className="jump-action-btn accent-green"
+            onClick={onJumpIn}
+            disabled={isLocked || activeJumpers >= maxJumpers}
+            aria-label="JUMP-IN"
+          >
+            {isLocked ? t("game.cooldown") : "JUMP-IN"}
+          </button>
+
+          <button
+            type="button"
+            className="jump-action-btn danger"
+            onClick={onJumpOut}
+            disabled={isLocked || activeJumpers === 0}
+            aria-label="JUMP-OUT"
+          >
+            {isLocked ? t("game.cooldown") : "JUMP-OUT"}
+          </button>
+        </div>
+      )}
+
+      {/* 3. Bottom Right Controls: STILL / MOVE, Camera Angle & 100% Zoom (Requirement 4) */}
+      <div className="bottom-right-controls">
+        <div className="hud-tool-card">
+          <Button
+            type="button"
+            variant={cameraMode === "still" ? "primary" : "dark"}
+            size="sm"
+            onClick={onToggleCameraMode}
+            className="camera-mode-btn"
+          >
+            {cameraMode === "still" ? t("game.still") : t("game.move")}
+          </Button>
+
+          {cameraMode === "move" && (
+            <Button
+              type="button"
+              variant="secondary"
+              size="sm"
+              onClick={onCycleCameraAngle}
+              className="camera-angle-btn"
+            >
+              <Camera size={14} />
+              <span>{getCameraAngleLabel(cameraAngle)}</span>
+            </Button>
+          )}
+
+          <div className="zoom-controls-divider" />
+
+          <button
+            type="button"
+            className="anime-btn dark sm icon-btn"
+            onClick={() => handleZoomStep("out")}
+            disabled={zoomLevel <= ZOOM_STEPS[0]}
+            aria-label="Zoom out"
+          >
+            <ZoomOut size={14} />
+          </button>
+
+          <span className="zoom-pct-label">
+            {Math.round(zoomLevel * 100)}%
+          </span>
+
+          <button
+            type="button"
+            className="anime-btn dark sm icon-btn"
+            onClick={() => handleZoomStep("in")}
+            disabled={zoomLevel >= ZOOM_STEPS[ZOOM_STEPS.length - 1]}
+            aria-label="Zoom in"
+          >
+            <ZoomIn size={14} />
+          </button>
         </div>
       </div>
     </>
