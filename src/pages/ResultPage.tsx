@@ -3,8 +3,20 @@ import { useTranslation } from "react-i18next";
 import confetti from "canvas-confetti";
 import { GamePlayStats, GameSettings } from "@/game/logic/types";
 import { Button } from "@/shared/ui/Button";
-import { Trophy, RefreshCw, UserPlus, Flame, Users, AlertTriangle } from "lucide-react";
+import {
+  Trophy,
+  RefreshCw,
+  UserPlus,
+  Flame,
+  Users,
+  AlertTriangle,
+  LogOut,
+  Globe,
+  Volume2,
+  VolumeX,
+} from "lucide-react";
 import { useAuth } from "@/features/auth/model/useAuth";
+import { soundManager } from "@/shared/audio/soundManager";
 
 interface ResultPageProps {
   stats: GamePlayStats;
@@ -14,6 +26,7 @@ interface ResultPageProps {
   onPlayAgain: () => void;
   onOpenMyPage: () => void;
   onOpenLeaderboard: () => void;
+  onHomeClick?: () => void;
 }
 
 export const ResultPage: React.FC<ResultPageProps> = ({
@@ -24,10 +37,33 @@ export const ResultPage: React.FC<ResultPageProps> = ({
   onPlayAgain,
   onOpenMyPage,
   onOpenLeaderboard,
+  onHomeClick,
 }) => {
-  const { t } = useTranslation();
-  const { user } = useAuth();
+  const { t, i18n } = useTranslation();
+  const { user, logout } = useAuth();
+  const [muted, setMuted] = React.useState(soundManager.getMuted());
   const isGuest = user?.isAnonymous;
+
+  const toggleLanguage = () => {
+    const nextLang = i18n.language === "ko" ? "en" : "ko";
+    i18n.changeLanguage(nextLang);
+  };
+
+  const toggleAudio = () => {
+    const nextMuted = soundManager.toggleMute();
+    setMuted(nextMuted);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      if (onHomeClick) {
+        onHomeClick();
+      }
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
+  };
 
   // Trigger celebration confetti for high rank
   useEffect(() => {
@@ -53,6 +89,61 @@ export const ResultPage: React.FC<ResultPageProps> = ({
 
   return (
     <div className="anime-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="result-title">
+      {/* Top Right Controls (Identical design to Game Screen) */}
+      <header className="result-top-control-bar" role="banner" aria-label="Score Screen Top Controls">
+        <div className="top-control-group nav-actions">
+          {/* Audio Mute Toggle */}
+          <button
+            type="button"
+            className="anime-btn dark sm icon-btn"
+            onClick={toggleAudio}
+            aria-label={muted ? "Unmute audio" : "Mute audio"}
+            title={muted ? "Unmute audio" : "Mute audio"}
+          >
+            {muted ? <VolumeX size={15} /> : <Volume2 size={15} />}
+          </button>
+
+          {/* Language Switcher */}
+          <button
+            type="button"
+            className="anime-btn dark sm lang-btn"
+            onClick={toggleLanguage}
+            aria-label="Change language"
+            title="Change language"
+          >
+            <Globe size={15} />
+            <span className="lang-text">{i18n.language === "ko" ? "EN" : "한국어"}</span>
+          </button>
+
+          {/* Leaderboard */}
+          {onOpenLeaderboard && (
+            <button
+              type="button"
+              className="anime-btn dark sm icon-btn"
+              onClick={onOpenLeaderboard}
+              aria-label={t("leaderboard.title")}
+              title={t("leaderboard.title")}
+            >
+              <Trophy size={15} />
+            </button>
+          )}
+
+          {/* LOGOUT Button (Identical to Game Screen) */}
+          {user && (
+            <button
+              type="button"
+              className="anime-btn dark sm logout-btn"
+              onClick={handleLogout}
+              aria-label={t("nav.logout")}
+              title={t("nav.logout")}
+            >
+              <LogOut size={15} />
+              <span className="logout-text">{t("nav.logout")}</span>
+            </button>
+          )}
+        </div>
+      </header>
+
       <div className="anime-card" style={{ maxWidth: 460, width: "100%", textAlign: "center" }}>
         <h2 id="result-title" style={{ fontSize: 28, fontWeight: 900, marginBottom: 12 }}>
           {t("result.title")}

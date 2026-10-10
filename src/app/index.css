@@ -813,3 +813,101 @@ button:hover:not(:disabled),
     transform: scale(1.05);
   }
 }
+
+/* ==========================================================================
+   Score Result Page: Top Right Control Bar (Identical to Game Screen Design)
+   ========================================================================== */
+.result-top-control-bar {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  z-index: 250;
+  pointer-events: auto;
+}
+
+.result-top-control-bar .nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #0b0b1a;
+  padding: 6px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.result-top-control-bar .nav-actions .icon-btn {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: rgba(30, 41, 59, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.result-top-control-bar .nav-actions .lang-btn {
+  height: 36px;
+  padding: 0 10px;
+  border-radius: 10px;
+  background: rgba(30, 41, 59, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  white-space: nowrap;
+  word-break: keep-all;
+  cursor: pointer;
+}
+
+.result-top-control-bar .nav-actions .logout-btn {
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 10px;
+  background: rgba(30, 41, 59, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  white-space: nowrap;
+  word-break: keep-all;
+  cursor: pointer;
+}
+
+.result-top-control-bar .nav-actions button:hover {
+  opacity: 0.85;
+}
+
+@media (max-width: 768px) {
+  .result-top-control-bar {
+    top: 10px;
+    right: 12px;
+  }
+  .result-top-control-bar .nav-actions {
+    padding: 4px 8px;
+    gap: 6px;
+  }
+  .result-top-control-bar .nav-actions .icon-btn {
+    width: 32px;
+    height: 32px;
+  }
+  .result-top-control-bar .nav-actions .lang-btn,
+  .result-top-control-bar .nav-actions .logout-btn {
+    height: 32px;
+    padding: 0 8px;
+    font-size: 12px;
+  }
+}
+

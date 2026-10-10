@@ -105,8 +105,8 @@ export const App: React.FC = () => {
 
   return (
     <div className="app-viewport">
-      {/* Top Navigation (Home & Result screens) */}
-      {screen !== "game" && (
+      {/* Top Navigation (Home screen only) */}
+      {screen === "home" && (
         <TopNav
           onHomeClick={() => setScreen("home")}
           onOpenMyPage={() => setShowMyPageModal(true)}
@@ -160,6 +160,7 @@ export const App: React.FC = () => {
           onPlayAgain={() => setScreen("game")}
           onOpenMyPage={() => setShowMyPageModal(true)}
           onOpenLeaderboard={() => setShowLeaderboardModal(true)}
+          onHomeClick={() => setScreen("home")}
         />
       )}
 
