@@ -39,6 +39,7 @@
 html, body {
   width: 100%;
   height: 100%;
+  height: 100dvh;
   overflow: hidden;
   background-color: var(--color-bg-dark);
   font-family: var(--font-main);
@@ -49,6 +50,7 @@ html, body {
 #root {
   width: 100%;
   height: 100%;
+  height: 100dvh;
   position: relative;
   overflow: hidden;
 }
@@ -57,6 +59,7 @@ html, body {
 .app-viewport {
   width: 100%;
   height: 100%;
+  height: 100dvh;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -77,9 +80,8 @@ html, body {
 }
 
 .game-canvas-container canvas {
-  max-width: 100% !important;
-  max-height: 100% !important;
-  object-fit: contain;
+  display: block;
+  touch-action: none;
 }
 
 /* Top Navigation Bar */
@@ -743,16 +745,6 @@ button:hover:not(:disabled),
   }
 }
 
-/* ==========================================================================
-   Desktop 16:9 Aspect Ratio Optimization
-   ========================================================================== */
-@media (min-width: 1024px) {
-  .game-canvas-container canvas {
-    aspect-ratio: 16 / 9;
-    max-width: 100vw;
-    max-height: 100vh;
-  }
-}
 
 /* Ending Scene: View Scoreboard Button (Floats at bottom center upon scene freeze) */
 .ending-scoreboard-overlay {
@@ -910,4 +902,365 @@ button:hover:not(:disabled),
     font-size: 12px;
   }
 }
+
+/* ==========================================================================
+   Homepage Responsive Styles
+   ========================================================================== */
+.homepage-container {
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px 24px 20px;
+  text-align: center;
+  z-index: 10;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-image: radial-gradient(circle at center, rgba(15, 23, 42, 0.72) 0%, rgba(10, 15, 30, 0.94) 100%), url('/assets/images/anime_court_bg.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.homepage-characters-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.homepage-turner-left {
+  position: absolute;
+  bottom: 2%;
+  left: 4%;
+  height: clamp(220px, 40vh, 460px);
+  opacity: 0.92;
+  filter: drop-shadow(0 10px 24px rgba(0,0,0,0.65));
+  transform: rotate(-3deg);
+  transition: opacity 0.3s ease, height 0.3s ease;
+}
+
+.homepage-turner-right {
+  position: absolute;
+  bottom: 2%;
+  right: 4%;
+  height: clamp(220px, 40vh, 460px);
+  opacity: 0.92;
+  filter: drop-shadow(0 10px 24px rgba(0,0,0,0.65));
+  transform: rotate(3deg);
+  transition: opacity 0.3s ease, height 0.3s ease;
+}
+
+.homepage-content-wrap {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 580px;
+}
+
+.homepage-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.homepage-logo {
+  max-height: clamp(120px, 22vh, 220px);
+  max-width: 90vw;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 24px rgba(255, 140, 0, 0.55));
+  animation: pulse 3s infinite ease-in-out;
+  margin-bottom: 16px;
+}
+
+.homepage-guide-card {
+  max-width: 580px;
+  width: 100%;
+  padding: 16px 24px;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.6;
+  color: #F8FAFC;
+  border: 2px solid rgba(255, 210, 0, 0.45);
+  background: rgba(18, 24, 38, 0.88);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+}
+
+.homepage-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 320px;
+}
+
+/* ==========================================================================
+   Settings Modal Responsive Styles
+   ========================================================================== */
+.settings-grid-landscape {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.settings-item {
+  margin-bottom: 0;
+}
+
+/* ==========================================================================
+   Mobile Landscape Comprehensive Optimization (@media landscape and max-height: 540px)
+   ========================================================================== */
+@media (orientation: landscape) and (max-height: 540px) {
+  /* 1. Global Navigation Bar Slimdown */
+  .top-nav {
+    height: 42px;
+    padding: 0 16px;
+  }
+  .top-nav-brand {
+    font-size: 16px;
+  }
+  .top-nav-right .anime-btn {
+    padding: 4px 10px;
+    font-size: 12px;
+    height: 28px;
+  }
+
+  /* 2. Homepage 2-Column Side-by-Side Presentation */
+  .homepage-container {
+    padding: 50px 24px 16px 24px;
+    justify-content: center;
+  }
+  .homepage-content-wrap {
+    flex-direction: row;
+    max-width: 800px;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+  }
+  .homepage-hero {
+    flex: 1.15;
+    margin-bottom: 0;
+    align-items: center;
+  }
+  .homepage-logo {
+    max-height: 76px;
+    margin-bottom: 8px;
+  }
+  .homepage-guide-card {
+    padding: 8px 14px;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  .homepage-actions {
+    flex: 1;
+    max-width: 250px;
+    gap: 8px;
+  }
+  .homepage-actions .anime-btn {
+    padding: 8px 14px;
+    font-size: 14px;
+  }
+  .homepage-turner-left,
+  .homepage-turner-right {
+    height: 140px;
+    opacity: 0.3;
+  }
+
+  /* 3. In-Game Top Bar: Ultra-Slim Single Row (Zero Occlusion) */
+  .game-top-control-bar {
+    padding: 3px 10px !important;
+    height: 38px !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 8px !important;
+    background: rgba(11, 15, 25, 0.88) !important;
+    backdrop-filter: blur(8px) !important;
+  }
+  .top-row-mobile {
+    display: contents !important;
+  }
+  .top-group-timer { order: 1 !important; }
+  .top-group-jumpers { order: 2 !important; }
+  .top-group-score { order: 3 !important; }
+  .top-group-nav { order: 4 !important; }
+
+  .hud-stat-pill {
+    padding: 2px 8px !important;
+    gap: 4px !important;
+    border-radius: 16px !important;
+    font-size: 11px !important;
+  }
+  .hud-timer {
+    font-size: 15px !important;
+  }
+  .hud-score {
+    font-size: 13px !important;
+  }
+  .hud-combo-badge {
+    padding: 2px 6px !important;
+    font-size: 10px !important;
+  }
+  .character-change-btn {
+    padding: 2px 6px !important;
+    font-size: 10px !important;
+    height: 22px !important;
+  }
+  .go-toggle-btn {
+    padding: 2px 6px !important;
+    font-size: 10px !important;
+    height: 22px !important;
+    min-width: 40px !important;
+  }
+  .top-control-group.nav-actions .anime-btn {
+    padding: 2px 6px !important;
+    font-size: 11px !important;
+    height: 24px !important;
+  }
+  .top-control-group.nav-actions .icon-btn {
+    width: 24px !important;
+    height: 24px !important;
+    padding: 0 !important;
+  }
+
+  /* 4. In-Game Action Buttons: Split into Mobile Gamepad Thumb Layout */
+  .bottom-center-controls {
+    bottom: 12px !important;
+    left: 0 !important;
+    width: 100% !important;
+    transform: none !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    padding: 0 max(16px, env(safe-area-inset-right)) 0 max(16px, env(safe-area-inset-left)) !important;
+    pointer-events: none !important;
+    z-index: 60 !important;
+  }
+  .bottom-center-controls .jump-action-btn {
+    pointer-events: auto !important;
+    width: 108px !important;
+    height: 50px !important;
+    font-size: 14px !important;
+    border-radius: 16px !important;
+  }
+  .bottom-center-controls .jump-action-btn:first-child {
+    margin-left: 8px;
+  }
+  .bottom-center-controls .jump-action-btn:last-child {
+    margin-right: 8px;
+  }
+
+  /* 5. In-Game Camera/Zoom Controls: Docked above Right Thumb Button */
+  .bottom-right-controls {
+    bottom: 70px !important;
+    right: max(16px, env(safe-area-inset-right)) !important;
+    transform: scale(0.82) !important;
+    transform-origin: bottom right !important;
+  }
+
+  /* 6. Settings Modal 2-Column Compact Layout */
+  .settings-card {
+    max-width: 580px !important;
+    padding: 12px 20px !important;
+    max-height: 94dvh !important;
+  }
+  .settings-title {
+    font-size: 18px !important;
+    margin-bottom: 8px !important;
+  }
+  .settings-grid-landscape {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px 16px !important;
+    margin-bottom: 10px !important;
+  }
+  .settings-item .form-label {
+    margin-bottom: 3px !important;
+    font-size: 11px !important;
+  }
+  .settings-item .anime-btn {
+    padding: 4px 6px !important;
+    font-size: 11px !important;
+    height: 26px !important;
+  }
+  .settings-notice {
+    padding: 6px 10px !important;
+    font-size: 11px !important;
+    margin-bottom: 10px !important;
+  }
+  .settings-start-btn {
+    padding: 8px 18px !important;
+    font-size: 16px !important;
+  }
+
+  /* 7. Result Page 2-Column Layout */
+  .result-card {
+    max-width: 620px !important;
+    padding: 12px 20px !important;
+    max-height: 94dvh !important;
+  }
+  .result-title {
+    font-size: 20px !important;
+    margin-bottom: 6px !important;
+  }
+  .result-columns-wrap {
+    display: grid !important;
+    grid-template-columns: 1fr 1.25fr !important;
+    gap: 14px !important;
+    align-items: center !important;
+    text-align: left !important;
+  }
+  .result-grade-number {
+    font-size: 46px !important;
+  }
+  .result-score-box {
+    padding: 8px 12px !important;
+    margin-bottom: 8px !important;
+  }
+  .result-score-val {
+    font-size: 26px !important;
+  }
+  .result-stats-grid {
+    margin-bottom: 8px !important;
+    gap: 6px !important;
+  }
+  .result-stats-grid .hud-stat-pill {
+    padding: 3px 8px !important;
+    font-size: 11px !important;
+  }
+  .result-guest-notice {
+    padding: 6px 10px !important;
+    font-size: 11px !important;
+    margin-bottom: 8px !important;
+  }
+  .result-action-btns {
+    gap: 6px !important;
+  }
+  .result-action-btns .anime-btn {
+    padding: 6px 12px !important;
+    font-size: 13px !important;
+  }
+
+  /* 8. Ending Scene: View Scoreboard Button */
+  .ending-scoreboard-overlay {
+    bottom: 14px !important;
+  }
+  .score-view-pulse-btn {
+    padding: 10px 28px !important;
+    font-size: 17px !important;
+  }
+}
+
 

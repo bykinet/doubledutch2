@@ -37,88 +37,97 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 
   return (
     <div className="anime-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="settings-modal-title">
-      <div className="anime-card" style={{ maxWidth: 520, width: "100%" }}>
-        <h2 id="settings-modal-title" style={{ fontSize: 26, fontWeight: 900, textAlign: "center", marginBottom: 20 }}>
+      <div className="anime-card settings-card" style={{ maxWidth: 520, width: "100%" }}>
+        <h2 id="settings-modal-title" className="settings-title" style={{ fontSize: 26, fontWeight: 900, textAlign: "center", marginBottom: 20 }}>
           {t("settings.title")}
         </h2>
 
-        {/* 1. Duration */}
-        <div style={{ marginBottom: 18 }}>
-          <div className="form-label">{t("settings.duration")}</div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 6 }}>
-            {durations.map((d) => (
-              <Button
-                key={d}
-                type="button"
-                variant={settings.duration === d ? "primary" : "dark"}
-                size="sm"
-                onClick={() => updateSetting("duration", d)}
-              >
-                {d}s
-              </Button>
-            ))}
-          </div>
-        </div>
+        <div className="settings-grid-landscape">
+          {/* Column 1: Duration & Speed */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            {/* 1. Duration */}
+            <div className="settings-item">
+              <div className="form-label">{t("settings.duration")}</div>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 6 }}>
+                {durations.map((d) => (
+                  <Button
+                    key={d}
+                    type="button"
+                    variant={settings.duration === d ? "primary" : "dark"}
+                    size="sm"
+                    onClick={() => updateSetting("duration", d)}
+                  >
+                    {d}s
+                  </Button>
+                ))}
+              </div>
+            </div>
 
-        {/* 2. Speed (1-5) */}
-        <div style={{ marginBottom: 18 }}>
-          <div className="form-label">{t("settings.speed")} (1~5)</div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 6 }}>
-            {speeds.map((s) => (
-              <Button
-                key={s}
-                type="button"
-                variant={settings.speed === s ? "primary" : "dark"}
-                size="sm"
-                onClick={() => updateSetting("speed", s)}
-              >
-                Lv.{s}
-              </Button>
-            ))}
+            {/* 2. Speed (1-5) */}
+            <div className="settings-item">
+              <div className="form-label">{t("settings.speed")} (1~5)</div>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 6 }}>
+                {speeds.map((s) => (
+                  <Button
+                    key={s}
+                    type="button"
+                    variant={settings.speed === s ? "primary" : "dark"}
+                    size="sm"
+                    onClick={() => updateSetting("speed", s)}
+                  >
+                    Lv.{s}
+                  </Button>
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
 
-        {/* 3. Difficulty (1-3) */}
-        <div style={{ marginBottom: 18 }}>
-          <div className="form-label">{t("settings.difficulty")}</div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
-            {difficulties.map((d) => {
-              const label = d === 1 ? t("settings.easy") : d === 2 ? t("settings.medium") : t("settings.hard");
-              return (
-                <Button
-                  key={d}
-                  type="button"
-                  variant={settings.difficulty === d ? "primary" : "dark"}
-                  size="sm"
-                  onClick={() => updateSetting("difficulty", d)}
-                >
-                  {label}
-                </Button>
-              );
-            })}
-          </div>
-        </div>
+          {/* Column 2: Difficulty & Max Jumpers */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            {/* 3. Difficulty (1-3) */}
+            <div className="settings-item">
+              <div className="form-label">{t("settings.difficulty")}</div>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
+                {difficulties.map((d) => {
+                  const label = d === 1 ? t("settings.easy") : d === 2 ? t("settings.medium") : t("settings.hard");
+                  return (
+                    <Button
+                      key={d}
+                      type="button"
+                      variant={settings.difficulty === d ? "primary" : "dark"}
+                      size="sm"
+                      onClick={() => updateSetting("difficulty", d)}
+                    >
+                      {label}
+                    </Button>
+                  );
+                })}
+              </div>
+            </div>
 
-        {/* 4. Max Jumpers (1-5) */}
-        <div style={{ marginBottom: 20 }}>
-          <div className="form-label">{t("settings.maxJumpers")} (1~5)</div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 6 }}>
-            {jumperCounts.map((c) => (
-              <Button
-                key={c}
-                type="button"
-                variant={settings.maxJumpers === c ? "primary" : "dark"}
-                size="sm"
-                onClick={() => updateSetting("maxJumpers", c)}
-              >
-                {c} {t("settings.people")}
-              </Button>
-            ))}
+            {/* 4. Max Jumpers (1-5) */}
+            <div className="settings-item">
+              <div className="form-label">{t("settings.maxJumpers")} (1~5)</div>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 6 }}>
+                {jumperCounts.map((c) => (
+                  <Button
+                    key={c}
+                    type="button"
+                    variant={settings.maxJumpers === c ? "primary" : "dark"}
+                    size="sm"
+                    onClick={() => updateSetting("maxJumpers", c)}
+                  >
+                    {c} {t("settings.people")}
+                  </Button>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Floor Safe Zone Notice */}
         <div
+          className="settings-notice"
           style={{
             background: "rgba(16, 185, 129, 0.15)",
             border: "1px solid rgba(16, 185, 129, 0.4)",
@@ -147,6 +156,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
           type="button"
           variant="primary"
           size="lg"
+          className="settings-start-btn"
           style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}
           onClick={onStartGame}
         >

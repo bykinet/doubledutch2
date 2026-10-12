@@ -6,6 +6,8 @@ import { GameSettings, CameraAngle, CameraMode } from "./logic/types";
 export class DoubleDutchGame {
   private game: any = null;
   private containerElement: HTMLElement;
+  private resizeObserver: ResizeObserver | null = null;
+  private resizeTimeouts: number[] = [];
 
   constructor(container: HTMLElement) {
     this.containerElement = container;
@@ -48,6 +50,63 @@ export class DoubleDutchGame {
     };
 
     this.game = new Phaser.Game(config);
+
+    // Setup responsive resize listeners
+    this.setupResizeListeners();
+  }
+
+  private triggerRefresh = () => {
+    if (!this.game || !this.game.scale) return;
+    try {
+      this.game.scale.refresh();
+    } catch (e) {
+      console.warn("Phaser scale refresh warning:", e);
+    }
+  };
+
+  public handleResize = () => {
+    this.clearResizeTimeouts();
+    // Multi-stage refresh to adapt to mobile browser viewport animation easing & address bar collapse
+    const delays = [0, 60, 150, 300, 500];
+    delays.forEach((delay) => {
+      const id = window.setTimeout(this.triggerRefresh, delay);
+      this.resizeTimeouts.push(id);
+    });
+  };
+
+  private clearResizeTimeouts() {
+    this.resizeTimeouts.forEach((id) => clearTimeout(id));
+    this.resizeTimeouts = [];
+  }
+
+  private setupResizeListeners() {
+    this.cleanupResizeListeners();
+
+    if (typeof ResizeObserver !== "undefined" && this.containerElement) {
+      this.resizeObserver = new ResizeObserver(() => {
+        this.handleResize();
+      });
+      this.resizeObserver.observe(this.containerElement);
+    }
+
+    window.addEventListener("resize", this.handleResize);
+    window.addEventListener("orientationchange", this.handleResize);
+    if (window.screen?.orientation) {
+      window.screen.orientation.addEventListener("change", this.handleResize);
+    }
+  }
+
+  private cleanupResizeListeners() {
+    this.clearResizeTimeouts();
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+      this.resizeObserver = null;
+    }
+    window.removeEventListener("resize", this.handleResize);
+    window.removeEventListener("orientationchange", this.handleResize);
+    if (window.screen?.orientation) {
+      window.screen.orientation.removeEventListener("change", this.handleResize);
+    }
   }
 
   // --- External control actions triggered by React UI ---
@@ -89,6 +148,7 @@ export class DoubleDutchGame {
   }
 
   public destroy() {
+    this.cleanupResizeListeners();
     if (this.game) {
       this.game.destroy(true);
       this.game = null;
