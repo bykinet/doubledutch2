@@ -128,6 +128,87 @@ html, body {
   pointer-events: auto;
 }
 
+/* Mobile responsive for Top Navigation: STRICT SINGLE ROW LAYOUT */
+@media (max-width: 768px) {
+  .top-nav {
+    height: 48px;
+    padding: 0 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .top-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .top-nav-brand {
+    font-size: 15px;
+    gap: 4px;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .top-nav-right {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+  }
+
+  .top-nav-btn {
+    padding: 3px 6px;
+    height: 28px;
+    font-size: 11px;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+
+  .top-nav-audio-btn,
+  .top-nav-rank-btn,
+  .top-nav-admin-btn {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    min-width: 28px;
+  }
+
+  .top-nav-lang-btn {
+    padding: 0 6px;
+    height: 28px;
+    font-size: 11px;
+  }
+
+  .top-nav-logout-btn {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    min-width: 28px;
+  }
+  .top-nav-logout-btn .top-nav-logout-text {
+    display: none;
+  }
+
+  .top-nav-user-btn {
+    max-width: 90px;
+    padding: 0 8px;
+    height: 28px;
+  }
+  .top-nav-user-btn .top-nav-user-text {
+    max-width: 60px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+  }
+}
+
 /* Anime styled button system */
 .anime-btn {
   position: relative;
@@ -401,26 +482,29 @@ button:hover:not(:disabled),
   word-break: keep-all;
 }
 
-/* PC: Single row layout */
-@media (min-width: 769px) {
-  .game-top-control-bar {
-    flex-wrap: nowrap;
-  }
-  .top-row-mobile {
-    display: contents;
-  }
-  .top-group-timer {
-    order: 1;
-  }
-  .top-group-jumpers {
-    order: 2;
-  }
-  .top-group-score {
-    order: 3;
-  }
-  .top-group-nav {
-    order: 4;
-  }
+/* Default single-row layout */
+.game-top-control-bar {
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+.top-row-mobile {
+  display: contents;
+}
+.top-group-timer {
+  order: 1;
+  flex-shrink: 0;
+}
+.top-group-jumpers {
+  order: 2;
+  flex-shrink: 0;
+}
+.top-group-score {
+  order: 3;
+  flex-shrink: 0;
+}
+.top-group-nav {
+  order: 4;
+  flex-shrink: 0;
 }
 
 .top-control-group {
@@ -534,59 +618,152 @@ button:hover:not(:disabled),
   animation: popIn 0.3s ease-out;
 }
 
-/* Mobile responsive for Top Control Bar: automatically wraps into 2 lines */
+/* Mobile responsive for Top Control Bar: STRICT SINGLE ROW LAYOUT (Zero Overlap) */
 @media (max-width: 768px) {
   .game-top-control-bar {
-    padding: 6px 12px;
-    flex-direction: column;
-    gap: 6px;
+    padding: 3px 6px;
+    height: 42px;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: space-between;
+    align-items: center;
+    gap: 4px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .game-top-control-bar::-webkit-scrollbar {
+    display: none;
   }
 
   .top-row-mobile {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
+    display: contents !important;
+  }
+
+  .top-control-group {
+    gap: 4px;
+    flex-shrink: 0;
   }
 
   .hud-stat-pill {
-    padding: 4px 10px;
-    gap: 6px;
-    font-size: 12px;
-    border-radius: 20px;
+    padding: 2px 6px;
+    gap: 4px;
+    font-size: 11px;
+    border-radius: 14px;
+    height: 28px;
+    box-sizing: border-box;
   }
 
   .hud-timer {
-    font-size: 18px;
-  }
-
-  .hud-score {
     font-size: 14px;
-  }
-
-  .hud-combo-badge {
-    padding: 3px 8px;
-    font-size: 11px;
-  }
-
-  .character-change-btn {
-    padding: 3px 8px;
-    font-size: 11px;
-    height: 24px;
+    font-weight: 800;
   }
 
   .go-toggle-btn {
-    padding: 3px 8px;
+    padding: 2px 6px;
+    font-size: 10px;
+    height: 20px;
+    min-width: 34px;
+    border-radius: 6px;
+  }
+
+  .rush-label {
+    padding: 1px 4px;
+    font-size: 10px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .rush-label .rush-text {
+    display: none;
+  }
+
+  .jumpers-counter {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+  .jumpers-count-text {
     font-size: 11px;
-    height: 24px;
-    min-width: 44px;
+    font-weight: 800;
+  }
+
+  .character-change-btn {
+    padding: 2px 5px;
+    font-size: 10px;
+    height: 20px;
+    min-width: 22px;
+  }
+
+  .hud-score {
+    font-size: 11px;
+    font-weight: 800;
+  }
+
+  .hud-combo-badge {
+    padding: 1px 4px;
+    font-size: 9px;
+    border-radius: 6px;
+  }
+
+  .top-control-group.nav-actions {
+    gap: 3px;
+    flex-shrink: 0;
   }
 
   .top-control-group.nav-actions .anime-btn {
-    padding: 4px 8px;
-    font-size: 11px;
-    height: 26px;
+    padding: 2px 6px;
+    font-size: 10px;
+    height: 24px;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+
+  .top-control-group.nav-actions .icon-btn {
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    min-width: 24px;
+  }
+
+  .top-control-group.nav-actions .lang-btn {
+    padding: 0 4px;
+    height: 24px;
+    font-size: 10px;
+  }
+
+  .top-control-group.nav-actions .logout-btn {
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    min-width: 24px;
+  }
+  .top-control-group.nav-actions .logout-text {
+    display: none;
+  }
+}
+
+/* Extra narrow mobile devices (width <= 420px): optimize space even further */
+@media (max-width: 420px) {
+  .game-top-control-bar {
+    padding: 2px 4px;
+    gap: 3px;
+  }
+  .hud-stat-pill {
+    padding: 2px 4px;
+    gap: 2px;
+    font-size: 10px;
+  }
+  .character-change-btn .char-btn-text {
+    display: none;
+  }
+  .score-pill .pts-label {
+    display: none;
+  }
+  .score-pill .combo-suffix,
+  .score-pill .combo-mult {
+    display: none;
   }
 }
 
@@ -884,22 +1061,39 @@ button:hover:not(:disabled),
 
 @media (max-width: 768px) {
   .result-top-control-bar {
-    top: 10px;
-    right: 12px;
+    top: 8px;
+    right: 8px;
+    flex-direction: row;
+    flex-wrap: nowrap;
   }
   .result-top-control-bar .nav-actions {
-    padding: 4px 8px;
-    gap: 6px;
+    padding: 3px 6px;
+    gap: 4px;
+    border-radius: 10px;
   }
   .result-top-control-bar .nav-actions .icon-btn {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
   }
-  .result-top-control-bar .nav-actions .lang-btn,
+  .result-top-control-bar .nav-actions .lang-btn {
+    height: 28px;
+    padding: 0 6px;
+    font-size: 11px;
+    border-radius: 8px;
+  }
   .result-top-control-bar .nav-actions .logout-btn {
-    height: 32px;
-    padding: 0 8px;
-    font-size: 12px;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    min-width: 28px;
+    border-radius: 8px;
+  }
+  .result-top-control-bar .nav-actions .logout-btn .logout-text {
+    display: none;
+  }
+  .result-card {
+    margin-top: 44px;
   }
 }
 

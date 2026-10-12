@@ -36,13 +36,14 @@ export const TopNav: React.FC<TopNavProps> = ({
   return (
     <nav className="top-nav" aria-label="Main Navigation">
       <div className="top-nav-brand" onClick={onHomeClick} role="button" tabIndex={0}>
-        <span>🏃 Double Dutch</span>
+        <span className="top-nav-brand-icon">🏃</span>
+        <span className="top-nav-brand-text">Double Dutch</span>
       </div>
 
       <div className="top-nav-right">
         {/* Audio Mute Toggle */}
         <button
-          className="anime-btn dark sm"
+          className="anime-btn dark sm top-nav-btn top-nav-audio-btn"
           onClick={toggleAudio}
           aria-label={muted ? "Unmute audio" : "Mute audio"}
           title={muted ? "Unmute audio" : "Mute audio"}
@@ -52,19 +53,19 @@ export const TopNav: React.FC<TopNavProps> = ({
 
         {/* Language Switcher */}
         <button
-          className="anime-btn dark sm"
+          className="anime-btn dark sm top-nav-btn top-nav-lang-btn"
           onClick={toggleLanguage}
           aria-label="Change language"
           title="Change language"
         >
           <Globe size={16} />
-          <span>{i18n.language === "ko" ? "EN" : "한국어"}</span>
+          <span className="top-nav-lang-text">{i18n.language === "ko" ? "EN" : "한국어"}</span>
         </button>
 
         {/* Leaderboard */}
         {onOpenLeaderboard && (
           <button
-            className="anime-btn dark sm"
+            className="anime-btn dark sm top-nav-btn top-nav-rank-btn"
             onClick={onOpenLeaderboard}
             aria-label={t("leaderboard.title")}
           >
@@ -75,7 +76,7 @@ export const TopNav: React.FC<TopNavProps> = ({
         {/* Admin Dashboard (if admin claim) */}
         {isAdmin && onOpenAdmin && (
           <button
-            className="anime-btn secondary sm"
+            className="anime-btn secondary sm top-nav-btn top-nav-admin-btn"
             onClick={onOpenAdmin}
             aria-label={t("admin.title")}
           >
@@ -87,21 +88,21 @@ export const TopNav: React.FC<TopNavProps> = ({
         {showUserControls && user && (
           <>
             <button
-              className="anime-btn dark sm"
+              className="anime-btn dark sm top-nav-btn top-nav-logout-btn"
               onClick={logout}
               aria-label={t("nav.logout")}
             >
               <LogOut size={16} />
-              <span>{t("nav.logout")}</span>
+              <span className="top-nav-logout-text">{t("nav.logout")}</span>
             </button>
 
             <button
-              className="anime-btn primary sm"
+              className="anime-btn primary sm top-nav-btn top-nav-user-btn"
               onClick={onOpenMyPage}
               aria-label={t("nav.mypage")}
             >
               <User size={16} />
-              <span>{profile?.nickname || t("nav.mypage")}</span>
+              <span className="top-nav-user-text">{profile?.nickname || t("nav.mypage")}</span>
             </button>
           </>
         )}

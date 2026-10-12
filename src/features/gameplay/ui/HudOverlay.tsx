@@ -159,7 +159,8 @@ export const HudOverlay: React.FC<HudOverlayProps> = ({
 
               {isRush && (
                 <span className="rush-label">
-                  {t("game.speedUp")}
+                  <span className="rush-icon">⚡</span>
+                  <span className="rush-text">{t("game.speedUp")}</span>
                 </span>
               )}
             </div>
@@ -234,7 +235,8 @@ export const HudOverlay: React.FC<HudOverlayProps> = ({
                   onClick={onOpenCharacterSidebar}
                   title="캐릭터 선택 및 업로드 (사이드바)"
                 >
-                  <span>👥 캐릭터 변경</span>
+                  <span className="char-btn-icon">👥</span>
+                  <span className="char-btn-text"> 캐릭터</span>
                 </button>
               )}
             </div>
@@ -245,12 +247,15 @@ export const HudOverlay: React.FC<HudOverlayProps> = ({
             <div className="hud-stat-pill score-pill">
               {combo > 0 && (
                 <div className="hud-combo-badge">
-                  <Flame size={13} style={{ display: "inline", marginRight: 3 }} />
-                  {combo} COMBO ({comboMultiplier.toFixed(1)}x)
+                  <Flame size={13} style={{ display: "inline", marginRight: 2 }} />
+                  <span className="combo-count">{combo}</span>
+                  <span className="combo-suffix">C</span>
+                  <span className="combo-mult"> ({comboMultiplier.toFixed(1)}x)</span>
                 </div>
               )}
               <div className="hud-score">
-                {score.toLocaleString()} PTS
+                <span className="score-val">{score.toLocaleString()}</span>
+                <span className="pts-label"> PTS</span>
               </div>
             </div>
           </div>
