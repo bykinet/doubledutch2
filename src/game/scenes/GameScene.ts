@@ -21,6 +21,7 @@ import {
 } from "../logic/judgment";
 import { soundManager } from "@/shared/audio/soundManager";
 import { getSelectedCharacters } from "@/entities/character/characterRoster";
+import i18n from "@/shared/i18n";
 
 interface JumperEntity {
   id: string;
@@ -829,9 +830,15 @@ export class GameScene extends Phaser.Scene {
       bannerBg.lineStyle(1.5, 0xFDE047, 0.85);
       bannerBg.strokeRoundedRect(-232, -38, 464, 76, 14);
 
-      const titleText = this.add.text(0, -12, "🏆 SUCCESS! 미션 완주 성공! 🏆", {
-        fontFamily: "'Outfit', 'Noto Sans KR', sans-serif",
-        fontSize: "26px",
+      const successTitle = i18n.t("game.successTitle", "🏆 SUCCESS! 미션 완주 성공! 🏆");
+      const successSub = i18n.t("game.successSub", {
+        count: this.settings.maxJumpers,
+        defaultValue: `설정 인원 ${this.settings.maxJumpers}명 전원 완주 달성! 🎉`,
+      });
+
+      const titleText = this.add.text(0, -12, successTitle, {
+        fontFamily: "'Outfit', 'Noto Sans KR', 'M PLUS Rounded 1c', sans-serif",
+        fontSize: "24px",
         fontStyle: "bold",
         color: "#FDE047",
         stroke: "#78350F",
@@ -839,9 +846,9 @@ export class GameScene extends Phaser.Scene {
         align: "center",
       }).setOrigin(0.5);
 
-      const subText = this.add.text(0, 20, `설정 인원 ${this.settings.maxJumpers}명 전원 완주 달성! 🎉`, {
-        fontFamily: "'Outfit', 'Noto Sans KR', sans-serif",
-        fontSize: "16px",
+      const subText = this.add.text(0, 20, successSub, {
+        fontFamily: "'Outfit', 'Noto Sans KR', 'M PLUS Rounded 1c', sans-serif",
+        fontSize: "15px",
         fontStyle: "bold",
         color: "#E2E8F0",
         stroke: "#0F172A",
@@ -962,9 +969,16 @@ export class GameScene extends Phaser.Scene {
       bannerBg.lineStyle(1.5, 0x60A5FA, 0.7);
       bannerBg.strokeRoundedRect(-232, -38, 464, 76, 14);
 
-      const titleText = this.add.text(0, -12, "💧 TIME UP... 실패 💧", {
-        fontFamily: "'Outfit', 'Noto Sans KR', sans-serif",
-        fontSize: "26px",
+      const timeUpTitle = i18n.t("game.timeUpTitle", "💧 TIME UP... 실패 💧");
+      const timeUpSub = i18n.t("game.timeUpSub", {
+        active: this.jumpers.length,
+        max: this.settings.maxJumpers,
+        defaultValue: `목표 인원 미달 (남은 인원: ${this.jumpers.length} / ${this.settings.maxJumpers}명) 😢`,
+      });
+
+      const titleText = this.add.text(0, -12, timeUpTitle, {
+        fontFamily: "'Outfit', 'Noto Sans KR', 'M PLUS Rounded 1c', sans-serif",
+        fontSize: "24px",
         fontStyle: "bold",
         color: "#F87171",
         stroke: "#450A0A",
@@ -972,20 +986,15 @@ export class GameScene extends Phaser.Scene {
         align: "center",
       }).setOrigin(0.5);
 
-      const subText = this.add.text(
-        0,
-        20,
-        `목표 인원 미달 (남은 인원: ${this.jumpers.length} / ${this.settings.maxJumpers}명) 😢`,
-        {
-          fontFamily: "'Outfit', 'Noto Sans KR', sans-serif",
-          fontSize: "16px",
-          fontStyle: "bold",
-          color: "#94A3B8",
-          stroke: "#0F172A",
-          strokeThickness: 3,
-          align: "center",
-        }
-      ).setOrigin(0.5);
+      const subText = this.add.text(0, 20, timeUpSub, {
+        fontFamily: "'Outfit', 'Noto Sans KR', 'M PLUS Rounded 1c', sans-serif",
+        fontSize: "15px",
+        fontStyle: "bold",
+        color: "#94A3B8",
+        stroke: "#0F172A",
+        strokeThickness: 3,
+        align: "center",
+      }).setOrigin(0.5);
 
       bannerContainer.add([bannerBg, titleText, subText]);
       bannerContainer.setScale(0.8);

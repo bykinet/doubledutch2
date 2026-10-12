@@ -638,16 +638,169 @@ button:hover:not(:disabled),
   animation: popIn 0.3s ease-out;
 }
 
-/* Mobile responsive for Top Control Bar: STRICT SINGLE ROW LAYOUT (Bold Icons & Zero Overlap) */
-@media (max-width: 768px) {
+/* ==========================================================================
+   Mobile Responsive for Top Control Bar
+   - Portrait: 2-row layout ONLY on mobile portrait (오직 모바일 화면 세로보기에서만 2줄로 UX 표시)
+   - Landscape: Strict single-row layout
+   ========================================================================== */
+
+/* 1. Mobile Portrait: 2-row layout */
+@media (max-width: 768px) and (orientation: portrait) {
   .game-top-control-bar {
-    padding: 4px 6px;
-    height: 46px;
+    padding: 6px 10px !important;
+    height: auto !important;
+    min-height: 82px;
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    justify-content: center !important;
+    align-items: stretch !important;
+    gap: 6px !important;
+    overflow: visible !important;
+  }
+
+  .top-row-mobile {
+    display: flex !important;
+    width: 100% !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+
+  .top-row-mobile.row-1 {
+    order: 1;
+  }
+
+  .top-row-mobile.row-2 {
+    order: 2;
+  }
+
+  .top-control-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .hud-stat-pill {
+    padding: 4px 10px;
+    gap: 6px;
+    font-size: 13px;
+    border-radius: 18px;
+    height: 36px;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .hud-timer {
+    font-size: 17px;
+    font-weight: 900;
+  }
+
+  .go-toggle-btn {
+    padding: 2px 9px;
+    font-size: 11px;
+    height: 26px;
+    min-width: 42px;
+    border-radius: 6px;
+  }
+
+  .rush-label {
+    padding: 2px 6px;
+    font-size: 11px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .rush-label .rush-text {
+    display: inline;
+    font-size: 11px;
+  }
+
+  .jumpers-counter {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .jumpers-count-text {
+    font-size: 13px;
+    font-weight: 800;
+  }
+
+  .character-change-btn {
+    padding: 3px 8px;
+    font-size: 11px;
+    height: 26px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .character-change-btn .char-btn-text {
+    display: inline;
+  }
+
+  .hud-score {
+    font-size: 14px;
+    font-weight: 900;
+  }
+
+  .hud-combo-badge {
+    padding: 2px 6px;
+    font-size: 11px;
+    border-radius: 8px;
+  }
+
+  .top-control-group.nav-actions {
+    gap: 5px;
+    flex-shrink: 0;
+  }
+
+  .top-control-group.nav-actions .anime-btn {
+    height: 32px !important;
+    min-height: 32px !important;
+    padding: 0 8px !important;
+    font-size: 11px !important;
+    border-radius: 8px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .top-control-group.nav-actions .icon-btn {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    padding: 0 !important;
+  }
+
+  .top-control-group.nav-actions .lang-btn {
+    padding: 0 8px !important;
+    height: 32px !important;
+    gap: 4px !important;
+  }
+
+  .top-control-group.nav-actions .logout-btn {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    padding: 0 !important;
+  }
+  .top-control-group.nav-actions .logout-text {
+    display: none !important;
+  }
+}
+
+/* 2. Mobile Landscape: STRICT SINGLE ROW LAYOUT */
+@media (max-width: 768px) and (orientation: landscape) {
+  .game-top-control-bar {
+    padding: 4px 8px;
+    height: 44px;
     flex-direction: row !important;
     flex-wrap: nowrap !important;
     justify-content: space-between;
     align-items: center;
-    gap: 4px;
+    gap: 6px;
     overflow-x: auto;
     overflow-y: hidden;
     scrollbar-width: none;
@@ -671,7 +824,7 @@ button:hover:not(:disabled),
     gap: 5px;
     font-size: 12px;
     border-radius: 16px;
-    height: 34px;
+    height: 32px;
     box-sizing: border-box;
     display: inline-flex;
     align-items: center;
@@ -683,10 +836,10 @@ button:hover:not(:disabled),
   }
 
   .go-toggle-btn {
-    padding: 2px 8px;
+    padding: 2px 7px;
     font-size: 11px;
     height: 24px;
-    min-width: 38px;
+    min-width: 36px;
     border-radius: 6px;
   }
 
@@ -712,7 +865,7 @@ button:hover:not(:disabled),
   }
 
   .character-change-btn {
-    padding: 2px 7px;
+    padding: 2px 6px;
     font-size: 11px;
     height: 24px;
     min-width: 26px;
@@ -735,8 +888,8 @@ button:hover:not(:disabled),
   }
 
   .top-control-group.nav-actions .anime-btn {
-    height: 32px !important;
-    min-height: 32px !important;
+    height: 30px !important;
+    min-height: 30px !important;
     padding: 0 6px !important;
     font-size: 11px !important;
     border-radius: 8px !important;
@@ -744,53 +897,28 @@ button:hover:not(:disabled),
   }
 
   .top-control-group.nav-actions .icon-btn {
-    width: 32px !important;
-    height: 32px !important;
-    min-width: 32px !important;
-    min-height: 32px !important;
+    width: 30px !important;
+    height: 30px !important;
+    min-width: 30px !important;
+    min-height: 30px !important;
     padding: 0 !important;
   }
 
   .top-control-group.nav-actions .lang-btn {
     padding: 0 6px !important;
-    height: 32px !important;
+    height: 30px !important;
     gap: 3px !important;
   }
 
   .top-control-group.nav-actions .logout-btn {
-    width: 32px !important;
-    height: 32px !important;
-    min-width: 32px !important;
-    min-height: 32px !important;
+    width: 30px !important;
+    height: 30px !important;
+    min-width: 30px !important;
+    min-height: 30px !important;
     padding: 0 !important;
   }
   .top-control-group.nav-actions .logout-text {
     display: none !important;
-  }
-}
-
-/* Extra narrow mobile devices (width <= 420px): optimize space while preserving visible icons */
-@media (max-width: 420px) {
-  .game-top-control-bar {
-    padding: 3px 4px;
-    gap: 3px;
-    height: 44px;
-  }
-  .hud-stat-pill {
-    padding: 2px 6px;
-    gap: 4px;
-    font-size: 11px;
-    height: 32px;
-  }
-  .character-change-btn .char-btn-text {
-    display: none;
-  }
-  .score-pill .pts-label {
-    display: none;
-  }
-  .score-pill .combo-suffix,
-  .score-pill .combo-mult {
-    display: none;
   }
 }
 

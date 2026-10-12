@@ -82,7 +82,12 @@
     "score": "スコア",
     "speedUp": "スピード15%加速！",
     "swipeHint": "Moveモードでは左右スワイプでアングルを切り替えられます",
-    "changeCharacter": "キャラクター"
+    "changeCharacter": "キャラクター",
+    "viewScore": "スコアを見る",
+    "successTitle": "🏆 SUCCESS! ミッション完走成功! 🏆",
+    "successSub": "設定人数 {{count}}名 全員完走達成! 🎉",
+    "timeUpTitle": "💧 TIME UP... 失敗 💧",
+    "timeUpSub": "目標人数未達 (残り人数: {{active}} / {{max}}名) 😢"
   },
   "result": {
     "title": "結果発表",

@@ -82,7 +82,12 @@
     "score": "점수",
     "speedUp": "속도 15% 가속!",
     "swipeHint": "Move 모드에서는 좌우 스와이프로 구도를 전환할 수 있습니다",
-    "changeCharacter": "캐릭터"
+    "changeCharacter": "캐릭터",
+    "viewScore": "스코어 보기",
+    "successTitle": "🏆 SUCCESS! 미션 완주 성공! 🏆",
+    "successSub": "설정 인원 {{count}}명 전원 완주 달성! 🎉",
+    "timeUpTitle": "💧 TIME UP... 실패 💧",
+    "timeUpSub": "목표 인원 미달 (남은 인원: {{active}} / {{max}}명) 😢"
   },
   "result": {
     "title": "결과 화면",

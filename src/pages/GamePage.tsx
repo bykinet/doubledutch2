@@ -7,6 +7,7 @@ import { CharacterSidebar } from "@/features/character/ui/CharacterSidebar";
 import { SelectedCharacters } from "@/entities/character/types";
 import { saveGameSession } from "@/entities/session/api/sessionApi";
 import { useAuth } from "@/features/auth/model/useAuth";
+import { useTranslation } from "react-i18next";
 import { Trophy } from "lucide-react";
 
 interface GamePageProps {
@@ -26,6 +27,7 @@ export const GamePage: React.FC<GamePageProps> = ({
   onOpenMyPage,
   onHomeClick,
 }) => {
+  const { t } = useTranslation();
   const { user, profile } = useAuth();
   const canvasContainerRef = useRef<HTMLDivElement>(null);
   const gameInstanceRef = useRef<DoubleDutchGame | null>(null);
@@ -318,7 +320,7 @@ export const GamePage: React.FC<GamePageProps> = ({
             onClick={handleProceedToScoreboard}
           >
             <Trophy size={26} />
-            <span>스코어 보기</span>
+            <span>{t("game.viewScore", "스코어 보기")}</span>
           </button>
         </div>
       )}
