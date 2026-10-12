@@ -1662,12 +1662,34 @@ button svg {
   pointer-events: none;
 }
 
+.intro-video-element {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.intro-video-element.loaded {
+  opacity: 1;
+}
+
 .intro-scenes-wrapper {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   overflow: hidden;
+  z-index: 1;
+}
+
+.intro-scenes-wrapper.video-active {
+  opacity: 0.15;
+  transition: opacity 0.6s ease;
 }
 
 .intro-scene {

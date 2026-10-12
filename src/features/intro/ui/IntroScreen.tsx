@@ -15,9 +15,11 @@ export const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete }) => {
   const [progress, setProgress] = useState<number>(0); // 0 to 1
   const [isFadingOut, setIsFadingOut] = useState<boolean>(false);
   const [muted, setMuted] = useState<boolean>(soundManager.getMuted());
+  const [videoLoaded, setVideoLoaded] = useState<boolean>(false);
+
+  const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const startTimeRef = useRef<number>(Date.now());
-  const animationFrameRef = useRef<number | null>(null);
   const completedRef = useRef<boolean>(false);
 
   // Toggle Mute
@@ -25,12 +27,15 @@ export const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete }) => {
     e.stopPropagation();
     const nextMuted = soundManager.toggleMute();
     setMuted(nextMuted);
+    if (videoRef.current) {
+      videoRef.current.muted = nextMuted;
+    }
     if (!nextMuted) {
       soundManager.playIntroStage(stage);
     }
   };
 
-  // Immediate Skip
+  // Immediate Skip or End
   const handleSkip = (e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
     if (completedRef.current) return;
@@ -38,20 +43,28 @@ export const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete }) => {
     setIsFadingOut(true);
     setTimeout(() => {
       onComplete();
-    }, 400);
+    }, 350);
   };
 
-  // Stage change sound triggers
+  // Stage sound triggers
   useEffect(() => {
     if (!muted) {
       soundManager.playIntroStage(stage);
     }
   }, [stage, muted]);
 
-  // Main 3-second timing loop
+  // Video Autoplay & Timer loop
   useEffect(() => {
     startTimeRef.current = Date.now();
     completedRef.current = false;
+
+    // Attempt autoplay video
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0;
+      videoRef.current.play().catch(() => {
+        // Autoplay policy fallback: video remains paused or muted
+      });
+    }
 
     const interval = setInterval(() => {
       const elapsed = Date.now() - startTimeRef.current;
@@ -70,14 +83,14 @@ export const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete }) => {
         clearInterval(interval);
         handleSkip();
       }
-    }, 16);
+    }, 20);
 
     return () => {
       clearInterval(interval);
     };
   }, []);
 
-  // Canvas particle & speed-line rendering
+  // Floating neon sparks canvas
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -104,23 +117,23 @@ export const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete }) => {
     }> = [];
 
     const colors = ["#00F0FF", "#FF007F", "#FFE600", "#FFFFFF"];
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < 35; i++) {
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 8,
-        vy: (Math.random() - 0.5) * 8,
+        vx: (Math.random() - 0.5) * 6,
+        vy: (Math.random() - 0.5) * 6,
         size: Math.random() * 3 + 1.5,
         color: colors[Math.floor(Math.random() * colors.length)],
       });
     }
 
     let running = true;
+    let animId: number;
     const loop = () => {
       if (!running) return;
       ctx.clearRect(0, 0, width, height);
 
-      // Render floating neon sparks
       for (const p of particles) {
         p.x += p.vx;
         p.y += p.vy;
@@ -137,7 +150,7 @@ export const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete }) => {
         ctx.fill();
       }
 
-      animationFrameRef.current = requestAnimationFrame(loop);
+      animId = requestAnimationFrame(loop);
     };
 
     loop();
@@ -145,9 +158,7 @@ export const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete }) => {
     return () => {
       running = false;
       window.removeEventListener("resize", handleResize);
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
+      cancelAnimationFrame(animId);
     };
   }, []);
 
@@ -158,42 +169,50 @@ export const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete }) => {
       className={`intro-screen-overlay ${isFadingOut ? "fade-out" : ""}`}
       onClick={() => handleSkip()}
     >
-      {/* Dynamic Background Scenes with AI Generated Art */}
-      <div className="intro-scenes-wrapper">
-        {/* Scene 0: Tournament Street Arena Wide */}
+      {/* 1. Real AI Generated WebM Video Player */}
+      <video
+        ref={videoRef}
+        src="/assets/intro/intro_video.webm"
+        autoPlay
+        muted={muted}
+        playsInline
+        preload="auto"
+        onCanPlay={() => setVideoLoaded(true)}
+        onEnded={() => handleSkip()}
+        className={`intro-video-element ${videoLoaded ? "loaded" : "loading"}`}
+      />
+
+      {/* 2. Visual AI Keyframe Fallback/Backdrop Layers */}
+      <div className={`intro-scenes-wrapper ${videoLoaded ? "video-active" : ""}`}>
         <div
           className={`intro-scene intro-scene-0 ${stage === 0 ? "active" : "inactive"}`}
           style={{ backgroundImage: `url('/assets/intro/scene_1.jpg')` }}
         />
-
-        {/* Scene 1: Jumper Mid-Air Spark Action */}
         <div
           className={`intro-scene intro-scene-1 ${stage === 1 ? "active" : "inactive"}`}
           style={{ backgroundImage: `url('/assets/intro/scene_2.jpg')` }}
         />
-
-        {/* Scene 2: Double Dutch Climax Title Screen */}
         <div
           className={`intro-scene intro-scene-2 ${stage === 2 ? "active" : "inactive"}`}
           style={{ backgroundImage: `url('/assets/intro/scene_title.jpg')` }}
         />
       </div>
 
-      {/* Kinetic speed line overlay */}
+      {/* Speed lines overlay */}
       <div className={`intro-speedlines stage-${stage}`} />
 
-      {/* Dynamic Canvas Particles */}
+      {/* Floating Canvas Sparks */}
       <canvas ref={canvasRef} className="intro-particles-canvas" />
 
-      {/* Retro Sci-Fi / Anime Video HUD Overlay */}
+      {/* Retro Sci-Fi / Anime HUD */}
       <div className="intro-hud" onClick={(e) => e.stopPropagation()}>
-        {/* Top Header Controls */}
+        {/* Top Header */}
         <div className="intro-top-bar">
           <div className="intro-rec-indicator">
             <span className="rec-dot" />
             <span className="rec-label">REC</span>
             <span className="rec-timer">00:0{timeLeft}</span>
-            <span className="intro-ai-badge">AI CINEMATIC</span>
+            <span className="intro-ai-badge">AI CINEMATIC VIDEO</span>
           </div>
 
           <div className="intro-top-actions">
@@ -220,7 +239,7 @@ export const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete }) => {
           </div>
         </div>
 
-        {/* Stage Title Sub-banner */}
+        {/* Center Title Sub-banner */}
         <div className="intro-center-banner">
           {stage === 0 && (
             <div className="intro-caption">
@@ -251,7 +270,7 @@ export const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete }) => {
             />
           </div>
           <div className="intro-progress-meta">
-            <span>3.0s OPENING INTRO</span>
+            <span>3.0s AI OPENING VIDEO</span>
             <span>{Math.round(progress * 100)}%</span>
           </div>
         </div>
