@@ -3,6 +3,9 @@
     "title": "Double Dutch Jumping",
     "subtitle": "두 개의 줄 사이로 들어가는 타이밍이 전부입니다. 한 명 더 넣을수록 점수는 커지고, 실수하면 콤보가 끊깁니다."
   },
+  "intro": {
+    "skip": "건너뛰기"
+  },
   "nav": {
     "logout": "로그아웃",
     "mypage": "마이페이지",

@@ -3,6 +3,9 @@
     "title": "Double Dutch Jumping",
     "subtitle": "Timing between two ropes is everything. The more jumpers you add, the higher the score—miss the beat and your combo breaks."
   },
+  "intro": {
+    "skip": "SKIP"
+  },
   "nav": {
     "logout": "Logout",
     "mypage": "My Page",

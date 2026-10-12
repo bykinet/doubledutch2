@@ -3,6 +3,9 @@
     "title": "Double Dutch Jumping",
     "subtitle": "2本のロープの間に入るタイミングがすべて。ジャンパーを増やすほど高得点、リズムを外せばコンボが途切れる！"
   },
+  "intro": {
+    "skip": "スキップ"
+  },
   "nav": {
     "logout": "ログアウト",
     "mypage": "マイページ",

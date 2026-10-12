@@ -13,12 +13,16 @@ import { LeaderboardModal } from "@/features/leaderboard/ui/LeaderboardModal";
 import { AdminModal } from "@/features/admin/ui/AdminModal";
 import { SpeechBubble } from "@/shared/ui/SpeechBubble";
 import { GamePlayStats, GameSettings } from "@/game/logic/types";
+import { IntroScreen } from "@/features/intro/ui/IntroScreen";
 
 type Screen = "home" | "game" | "result";
 
 export const App: React.FC = () => {
   const { t } = useTranslation();
   const { user, profile, loginGuest, setNickname, loading } = useAuth();
+
+  // Intro animation on entrance (always shown on load for 3s)
+  const [showIntro, setShowIntro] = useState<boolean>(true);
 
   const [screen, setScreen] = useState<Screen>("home");
 
@@ -105,6 +109,11 @@ export const App: React.FC = () => {
 
   return (
     <div className="app-viewport">
+      {/* 3-Second AI Cinematic Intro Animation */}
+      {showIntro && (
+        <IntroScreen onComplete={() => setShowIntro(false)} />
+      )}
+
       {/* Top Navigation (Home screen only) */}
       {screen === "home" && (
         <TopNav
