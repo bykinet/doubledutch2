@@ -48,7 +48,7 @@ export const TopNav: React.FC<TopNavProps> = ({
           aria-label={muted ? "Unmute audio" : "Mute audio"}
           title={muted ? "Unmute audio" : "Mute audio"}
         >
-          {muted ? <VolumeX size={16} /> : <Volume2 size={16} />}
+          {muted ? <VolumeX size={18} /> : <Volume2 size={18} />}
         </button>
 
         {/* Language Switcher */}
@@ -58,8 +58,8 @@ export const TopNav: React.FC<TopNavProps> = ({
           aria-label="Change language"
           title="Change language"
         >
-          <Globe size={16} />
-          <span className="top-nav-lang-text">{i18n.language === "ko" ? "EN" : "한국어"}</span>
+          <Globe size={18} />
+          <span className="top-nav-lang-text">{i18n.language === "ko" ? "EN" : "KO"}</span>
         </button>
 
         {/* Leaderboard */}
@@ -69,7 +69,7 @@ export const TopNav: React.FC<TopNavProps> = ({
             onClick={onOpenLeaderboard}
             aria-label={t("leaderboard.title")}
           >
-            <Trophy size={16} />
+            <Trophy size={18} />
           </button>
         )}
 
@@ -80,7 +80,7 @@ export const TopNav: React.FC<TopNavProps> = ({
             onClick={onOpenAdmin}
             aria-label={t("admin.title")}
           >
-            <ShieldAlert size={16} />
+            <ShieldAlert size={18} />
           </button>
         )}
 
@@ -92,7 +92,7 @@ export const TopNav: React.FC<TopNavProps> = ({
               onClick={logout}
               aria-label={t("nav.logout")}
             >
-              <LogOut size={16} />
+              <LogOut size={18} />
               <span className="top-nav-logout-text">{t("nav.logout")}</span>
             </button>
 
@@ -101,7 +101,7 @@ export const TopNav: React.FC<TopNavProps> = ({
               onClick={onOpenMyPage}
               aria-label={t("nav.mypage")}
             >
-              <User size={16} />
+              <User size={18} />
               <span className="top-nav-user-text">{profile?.nickname || t("nav.mypage")}</span>
             </button>
           </>

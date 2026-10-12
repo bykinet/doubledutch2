@@ -175,7 +175,7 @@ export const HudOverlay: React.FC<HudOverlayProps> = ({
               aria-label={muted ? "Unmute audio" : "Mute audio"}
               title={muted ? "Unmute audio" : "Mute audio"}
             >
-              {muted ? <VolumeX size={15} /> : <Volume2 size={15} />}
+              {muted ? <VolumeX size={18} /> : <Volume2 size={18} />}
             </button>
 
             <button
@@ -185,8 +185,8 @@ export const HudOverlay: React.FC<HudOverlayProps> = ({
               aria-label="Change language"
               title="Change language"
             >
-              <Globe size={15} />
-              <span className="lang-text">{i18n.language === "ko" ? "EN" : "한국어"}</span>
+              <Globe size={18} />
+              <span className="lang-text">{i18n.language === "ko" ? "EN" : "KO"}</span>
             </button>
 
             {onOpenLeaderboard && (
@@ -197,7 +197,7 @@ export const HudOverlay: React.FC<HudOverlayProps> = ({
                 aria-label={t("leaderboard.title")}
                 title={t("leaderboard.title")}
               >
-                <Trophy size={15} />
+                <Trophy size={18} />
               </button>
             )}
 
@@ -209,7 +209,7 @@ export const HudOverlay: React.FC<HudOverlayProps> = ({
                 aria-label={t("nav.logout")}
                 title={t("nav.logout")}
               >
-                <LogOut size={15} />
+                <LogOut size={18} />
                 <span className="logout-text">{t("nav.logout")}</span>
               </button>
             )}
