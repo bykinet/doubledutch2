@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/features/auth/model/useAuth";
 import { soundManager } from "@/shared/audio/soundManager";
+import { getNextLanguage, getLanguageLabel } from "@/shared/i18n";
 
 interface ResultPageProps {
   stats: GamePlayStats;
@@ -45,7 +46,7 @@ export const ResultPage: React.FC<ResultPageProps> = ({
   const isGuest = user?.isAnonymous;
 
   const toggleLanguage = () => {
-    const nextLang = i18n.language === "ko" ? "en" : "ko";
+    const nextLang = getNextLanguage(i18n.language);
     i18n.changeLanguage(nextLang);
   };
 
@@ -109,10 +110,10 @@ export const ResultPage: React.FC<ResultPageProps> = ({
             className="anime-btn dark sm lang-btn"
             onClick={toggleLanguage}
             aria-label="Change language"
-            title="Change language"
+            title={`Language: ${getLanguageLabel(i18n.language)}`}
           >
             <Globe size={18} />
-            <span className="lang-text">{i18n.language === "ko" ? "EN" : "KO"}</span>
+            <span className="lang-text">{getLanguageLabel(i18n.language, true)}</span>
           </button>
 
           {/* Leaderboard */}

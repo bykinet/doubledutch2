@@ -81,7 +81,8 @@
     "combo": "콤보",
     "score": "점수",
     "speedUp": "속도 15% 가속!",
-    "swipeHint": "Move 모드에서는 좌우 스와이프로 구도를 전환할 수 있습니다"
+    "swipeHint": "Move 모드에서는 좌우 스와이프로 구도를 전환할 수 있습니다",
+    "changeCharacter": "캐릭터"
   },
   "result": {
     "title": "결과 화면",

@@ -81,7 +81,8 @@
     "combo": "Combo",
     "score": "Score",
     "speedUp": "RUSH x1.15!",
-    "swipeHint": "Swipe left/right to rotate view in Move mode"
+    "swipeHint": "Swipe left/right to rotate view in Move mode",
+    "changeCharacter": "Characters"
   },
   "result": {
     "title": "Game Over",

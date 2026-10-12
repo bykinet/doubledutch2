@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { LogOut, User, Globe, Volume2, VolumeX, Trophy, ShieldAlert } from "lucide-react";
 import { useAuth } from "@/features/auth/model/useAuth";
 import { soundManager } from "@/shared/audio/soundManager";
+import { getNextLanguage, getLanguageLabel } from "@/shared/i18n";
 
 interface TopNavProps {
   onOpenMyPage?: () => void;
@@ -24,7 +25,7 @@ export const TopNav: React.FC<TopNavProps> = ({
   const [muted, setMuted] = React.useState(soundManager.getMuted());
 
   const toggleLanguage = () => {
-    const nextLang = i18n.language === "ko" ? "en" : "ko";
+    const nextLang = getNextLanguage(i18n.language);
     i18n.changeLanguage(nextLang);
   };
 
@@ -56,10 +57,10 @@ export const TopNav: React.FC<TopNavProps> = ({
           className="anime-btn dark sm top-nav-btn top-nav-lang-btn"
           onClick={toggleLanguage}
           aria-label="Change language"
-          title="Change language"
+          title={`Language: ${getLanguageLabel(i18n.language)}`}
         >
           <Globe size={18} />
-          <span className="top-nav-lang-text">{i18n.language === "ko" ? "EN" : "KO"}</span>
+          <span className="top-nav-lang-text">{getLanguageLabel(i18n.language, true)}</span>
         </button>
 
         {/* Leaderboard */}

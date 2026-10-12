@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { soundManager } from "@/shared/audio/soundManager";
 import { useAuth } from "@/features/auth/model/useAuth";
+import { getNextLanguage, getLanguageLabel } from "@/shared/i18n";
 
 interface HudOverlayProps {
   score: number;
@@ -77,7 +78,7 @@ export const HudOverlay: React.FC<HudOverlayProps> = ({
   const [muted, setMuted] = useState(soundManager.getMuted());
 
   const toggleLanguage = () => {
-    const nextLang = i18n.language === "ko" ? "en" : "ko";
+    const nextLang = getNextLanguage(i18n.language);
     i18n.changeLanguage(nextLang);
   };
 
@@ -183,10 +184,10 @@ export const HudOverlay: React.FC<HudOverlayProps> = ({
               className="anime-btn dark sm lang-btn"
               onClick={toggleLanguage}
               aria-label="Change language"
-              title="Change language"
+              title={`Language: ${getLanguageLabel(i18n.language)}`}
             >
               <Globe size={18} />
-              <span className="lang-text">{i18n.language === "ko" ? "EN" : "KO"}</span>
+              <span className="lang-text">{getLanguageLabel(i18n.language, true)}</span>
             </button>
 
             {onOpenLeaderboard && (
@@ -233,10 +234,10 @@ export const HudOverlay: React.FC<HudOverlayProps> = ({
                   type="button"
                   className="anime-btn sm dark character-change-btn"
                   onClick={onOpenCharacterSidebar}
-                  title="캐릭터 선택 및 업로드 (사이드바)"
+                  title={t("game.changeCharacter")}
                 >
                   <span className="char-btn-icon">👥</span>
-                  <span className="char-btn-text"> 캐릭터</span>
+                  <span className="char-btn-text"> {t("game.changeCharacter")}</span>
                 </button>
               )}
             </div>
